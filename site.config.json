@@ -1,0 +1,14 @@
+{
+  "name": "Negroni Marson",
+  "orderBaseUrl": "https://wa.me/5519999060077",
+  "orderMessages": {
+    "geral": "Olá! Quero pedir um Negroni Marson.",
+    "classico": "Olá! Quero pedir o Negroni Marson Clássico 500 ml.",
+    "defumado": "Olá! Quero pedir o Negroni Marson Defumado 500 ml.",
+    "presente-classico": "Olá! Quero pedir a Caixa Presente com Negroni Marson Clássico.",
+    "presente-defumado": "Olá! Quero pedir a Caixa Presente com Negroni Marson Defumado."
+  },
+  "instagramUrl": "https://www.instagram.com/negronimarson/",
+  "catalogUrl": "https://linktr.ee/negronimarson",
+  "siteUrl": ""
+}

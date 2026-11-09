@@ -1,0 +1,47 @@
+import {readFile,writeFile,mkdir,cp,readdir,unlink} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+
+export const root = fileURLToPath(new URL('../',import.meta.url));
+export async function build(){
+  const config=JSON.parse(await readFile(path.join(root,'site.config.json'),'utf8'));
+  const destination=new URL(config.orderBaseUrl);
+  if(destination.protocol!=='https:') throw new Error('O canal de pedidos precisa usar HTTPS.');
+  const siteUrl=config.siteUrl?.trim().replace(/\/$/,'');
+  if(siteUrl && new URL(siteUrl).protocol!=='https:') throw new Error('siteUrl precisa usar HTTPS.');
+  const escape=(s)=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  const order=(key)=>{
+    if(!config.orderMessages[key]) throw new Error(`Mensagem ausente para ${key}`);
+    const url=new URL(destination);
+    if(['wa.me','api.whatsapp.com'].includes(url.hostname)) url.searchParams.set('text',config.orderMessages[key]);
+    return url.href;
+  };
+  let html=await readFile(path.join(root,'index.html'),'utf8');
+  html=html.replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
+    .replaceAll('{{instagramUrl}}',escape(config.instagramUrl))
+    .replaceAll('{{catalogUrl}}',escape(config.catalogUrl))
+    .replaceAll('{{socialImage}}',escape(siteUrl?`${siteUrl}/assets/social.jpg`:'assets/social.jpg'))
+    .replaceAll('{{canonical}}',siteUrl?`<link rel="canonical" href="${escape(siteUrl)}/"><meta property="og:url" content="${escape(siteUrl)}/">`:'');
+  if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
+  const out=path.join(root,'dist');
+  await mkdir(out,{recursive:true});
+  await writeFile(path.join(out,'index.html'),html);
+  for(const file of ['styles.css','app.js','label-story.js','assets']) await cp(path.join(root,file),path.join(out,file),{
+    recursive:true,
+    // Keep supplied Instagram captures in the workspace; ship optimized assets.
+    filter:source=>!path.basename(source).startsWith('WhatsApp Image ')
+  });
+  // Remove only stale generated copies left by earlier builds. Originals in
+  // the workspace's assets directory are never modified or removed here.
+  const assetOutput=path.join(out,'assets');
+  for(const name of await readdir(assetOutput)) {
+    if(name.startsWith('WhatsApp Image ') && /\.jpe?g$/i.test(name)) await unlink(path.join(assetOutput,name));
+  }
+  if(siteUrl) await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\n`);
+  return {out,config,html};
+}
+if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+  const {out,config}=await build();
+  console.log(`Build concluído: ${out}`);
+  if(!config.siteUrl) console.log('Publicação: configure siteUrl para URLs absolutas de compartilhamento e canonical.');
+}

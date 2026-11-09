@@ -1,0 +1,14 @@
+{
+  "name": "negroni-marson",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page oficial de apresentação do Negroni Marson",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/server.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/server.mjs --production",
+    "check": "node scripts/check.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
