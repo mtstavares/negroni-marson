@@ -1,111 +1,113 @@
 {
-  "classico": {
+  "classico-oficial": {
     "sourceWidth": 1024,
-    "sourceHeight": 1484,
+    "sourceHeight": 1536,
     "files": [
       {
-        "path": "assets/classico-320.webp",
+        "path": "assets/classico-oficial-320.webp",
         "width": 320,
-        "height": 464,
-        "bytes": 20728
+        "height": 480,
+        "bytes": 22982
       },
       {
-        "path": "assets/classico-320.avif",
+        "path": "assets/classico-oficial-320.avif",
         "width": 320,
-        "height": 464,
-        "bytes": 14446
+        "height": 480,
+        "bytes": 15275
       },
       {
-        "path": "assets/classico-480.webp",
+        "path": "assets/classico-oficial-480.webp",
         "width": 480,
-        "height": 696,
-        "bytes": 38684
+        "height": 720,
+        "bytes": 42038
       },
       {
-        "path": "assets/classico-480.avif",
+        "path": "assets/classico-oficial-480.avif",
         "width": 480,
-        "height": 696,
-        "bytes": 26985
+        "height": 720,
+        "bytes": 27964
       },
       {
-        "path": "assets/classico-800.webp",
+        "path": "assets/classico-oficial-800.webp",
         "width": 800,
-        "height": 1159,
-        "bytes": 84270
+        "height": 1200,
+        "bytes": 89242
       },
       {
-        "path": "assets/classico-800.avif",
+        "path": "assets/classico-oficial-800.avif",
         "width": 800,
-        "height": 1159,
-        "bytes": 55953
+        "height": 1200,
+        "bytes": 59962
       },
       {
-        "path": "assets/classico-1024.webp",
+        "path": "assets/classico-oficial-1024.webp",
         "width": 1024,
-        "height": 1484,
-        "bytes": 124290
+        "height": 1536,
+        "bytes": 127594
       },
       {
-        "path": "assets/classico-1024.avif",
+        "path": "assets/classico-oficial-1024.avif",
         "width": 1024,
-        "height": 1484,
-        "bytes": 81259
+        "height": 1536,
+        "bytes": 88243
       }
-    ]
+    ],
+    "source": "assets/WhatsApp Image 2026-11-09 at 17.05.47.jpeg"
   },
-  "defumado": {
+  "defumado-oficial": {
     "sourceWidth": 1024,
-    "sourceHeight": 1447,
+    "sourceHeight": 1536,
     "files": [
       {
-        "path": "assets/defumado-320.webp",
+        "path": "assets/defumado-oficial-320.webp",
         "width": 320,
-        "height": 452,
-        "bytes": 24922
+        "height": 480,
+        "bytes": 24710
       },
       {
-        "path": "assets/defumado-320.avif",
+        "path": "assets/defumado-oficial-320.avif",
         "width": 320,
-        "height": 452,
-        "bytes": 16423
+        "height": 480,
+        "bytes": 16313
       },
       {
-        "path": "assets/defumado-480.webp",
+        "path": "assets/defumado-oficial-480.webp",
         "width": 480,
-        "height": 678,
-        "bytes": 45436
+        "height": 720,
+        "bytes": 44730
       },
       {
-        "path": "assets/defumado-480.avif",
+        "path": "assets/defumado-oficial-480.avif",
         "width": 480,
-        "height": 678,
-        "bytes": 30275
+        "height": 720,
+        "bytes": 29698
       },
       {
-        "path": "assets/defumado-800.webp",
+        "path": "assets/defumado-oficial-800.webp",
         "width": 800,
-        "height": 1130,
-        "bytes": 97638
+        "height": 1200,
+        "bytes": 94378
       },
       {
-        "path": "assets/defumado-800.avif",
+        "path": "assets/defumado-oficial-800.avif",
         "width": 800,
-        "height": 1130,
-        "bytes": 61834
+        "height": 1200,
+        "bytes": 62624
       },
       {
-        "path": "assets/defumado-1024.webp",
+        "path": "assets/defumado-oficial-1024.webp",
         "width": 1024,
-        "height": 1447,
-        "bytes": 139922
+        "height": 1536,
+        "bytes": 132998
       },
       {
-        "path": "assets/defumado-1024.avif",
+        "path": "assets/defumado-oficial-1024.avif",
         "width": 1024,
-        "height": 1447,
-        "bytes": 87422
+        "height": 1536,
+        "bytes": 91362
       }
-    ]
+    ],
+    "source": "assets/WhatsApp Image 2026-11-09 at 17.05.48.jpeg"
   },
   "presente-classico": {
     "sourceWidth": 1216,
@@ -245,24 +247,6 @@
       }
     ]
   },
-  "rotulo-detalhe": {
-    "sourceWidth": 360,
-    "sourceHeight": 710,
-    "files": [
-      {
-        "path": "assets/rotulo-detalhe-360.webp",
-        "width": 360,
-        "height": 710,
-        "bytes": 66600
-      },
-      {
-        "path": "assets/rotulo-detalhe-360.avif",
-        "width": 360,
-        "height": 710,
-        "bytes": 38840
-      }
-    ]
-  },
   "como-servir-arte": {
     "sourceWidth": 540,
     "sourceHeight": 540,
@@ -352,5 +336,72 @@
         "bytes": 59001
       }
     ]
+  },
+  "rotulo-oficial-completo": {
+    "sourceWidth": 900,
+    "sourceHeight": 1600,
+    "files": [
+      {
+        "path": "assets/rotulo-oficial-completo-540.webp",
+        "width": 540,
+        "height": 960,
+        "bytes": 131036
+      },
+      {
+        "path": "assets/rotulo-oficial-completo-540.avif",
+        "width": 540,
+        "height": 960,
+        "bytes": 71187
+      },
+      {
+        "path": "assets/rotulo-oficial-completo-900.webp",
+        "width": 900,
+        "height": 1600,
+        "bytes": 271444
+      },
+      {
+        "path": "assets/rotulo-oficial-completo-900.avif",
+        "width": 900,
+        "height": 1600,
+        "bytes": 145499
+      }
+    ]
+  },
+  "rotulo-oficial-detalhe": {
+    "sourceWidth": 460,
+    "sourceHeight": 907,
+    "files": [
+      {
+        "path": "assets/rotulo-oficial-detalhe-360.webp",
+        "width": 360,
+        "height": 710,
+        "bytes": 77142
+      },
+      {
+        "path": "assets/rotulo-oficial-detalhe-360.avif",
+        "width": 360,
+        "height": 710,
+        "bytes": 41948
+      },
+      {
+        "path": "assets/rotulo-oficial-detalhe-460.webp",
+        "width": 460,
+        "height": 907,
+        "bytes": 108582
+      },
+      {
+        "path": "assets/rotulo-oficial-detalhe-460.avif",
+        "width": 460,
+        "height": 907,
+        "bytes": 59507
+      }
+    ],
+    "crop": [
+      220,
+      405,
+      680,
+      1312
+    ],
+    "source": "assets/WhatsApp Image 2026-11-09 at 17.09.16.jpeg"
   }
 }

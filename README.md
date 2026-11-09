@@ -49,14 +49,15 @@ Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.h
 | `docs/CONTEUDOS-DO-INSTAGRAM.md` | Novas capturas, histórico parcial e conteúdo incorporado |
 | `docs/VALIDACAO.md` | O que foi verificado e o que ainda exige navegador |
 | `docs/REVISAO-GERAL.md` | Revisão de usabilidade, resolução, pesos e limitações das medições |
+| `docs/IMAGENS-OFICIAIS.md` | Comparação dos novos materiais oficiais e substituições aplicadas |
 | `docs/imagens-responsivas.json` | Manifesto das resoluções e tamanhos das imagens preparadas |
 | `docs/referencias/` | Artes originais oficiais e registro das fontes |
 
 ## Atualizar imagens e conteúdo
 
-As imagens usadas são **artes oficiais do catálogo**, sem confirmação de que sejam fotografias do produto físico. Os originais foram preservados em `docs/referencias/`. Use fotos próprias/autorizadas quando a marca fornecer o material, mantendo as descrições alternativas corretas.
+As imagens usadas são **artes oficiais fornecidas pela marca**, sem confirmação de que sejam fotografias do produto físico. Os novos originais das garrafas e de “Por trás do rótulo” estão em `assets/`, com os nomes recebidos pelo WhatsApp; os materiais anteriores e as caixas estão em `docs/referencias/`. Veja a seleção em `docs/IMAGENS-OFICIAIS.md`. Mantenha as descrições alternativas corretas ao atualizar o material.
 
-Para preparar imagens, execute `python scripts/prepare-images.py` com Pillow e suporte a AVIF. O script gera versões AVIF/WebP dos originais disponíveis, sem ampliação artificial. A garrafa oferece até 1024 px e a caixa, 1216 px. O hero em AVIF tem cerca de 56 kB em 800 px ou 81 kB em resolução nativa. Python não é necessário para rodar ou publicar o site depois que os assets estão preparados.
+Para preparar imagens, execute `python scripts/prepare-images.py` com Pillow e suporte a AVIF. O script gera versões AVIF/WebP dos originais disponíveis, sem ampliação artificial. As novas garrafas têm 1024 × 1536 px e a caixa, 1216 px de largura. O hero em AVIF tem cerca de 60 kB em 800 px ou 88 kB em resolução nativa. A arte completa do rótulo tem 900 × 1600 px e seu recorte interativo, 460 × 907 px. Python não é necessário para rodar ou publicar o site depois que os assets estão preparados.
 
 Ao trocar uma imagem, preserve a proporção e atualize os `<source>`, `src`, `srcset`, `sizes`, `width`, `height` e `alt` em `src/index.template.html`. O preload do hero precisa continuar usando os mesmos candidatos e tamanhos da imagem principal. `docs/imagens-responsivas.json` registra os arquivos gerados.
 
@@ -64,7 +65,7 @@ Na caixa presente, cenário, tampa, vidro e base da garrafa são fixos e idênti
 
 No mobile (até 760 px), “Por trás do rótulo” funciona por toque: cinco marcadores de 44 px selecionam um detalhe, dão zoom na arte e atualizam o cartão explicativo abaixo. O botão “Ver o rótulo sem zoom” restaura a visão geral. Não há reprodução automática nessa versão. Os textos do cartão vêm da lista do próprio HTML, evitando manter duas cópias. No desktop, a exploração pela lista e a reprodução com pausa continuam disponíveis. Sem JavaScript, a lista completa permanece legível no celular.
 
-As capturas do Instagram adicionadas pelo solicitante permanecem em `assets/`. O novo script prepara somente as áreas da arte usadas pela página, sem carregar a interface e as legendas que antes eram ocultadas em CSS. Se a captura mudar, ajuste os recortes em `scripts/prepare-images.py` e os pontos do SVG/zoom em `label-story.js`. O build exclui os originais com prefixo `WhatsApp Image ` da cópia para `dist/`.
+As capturas do Instagram e as novas imagens oficiais adicionadas pelo solicitante permanecem em `assets/`. O script prepara somente as áreas usadas pela página, sem carregar a interface do Instagram. “Por trás do rótulo” agora usa a arte oficial, com pontos do SVG e do zoom recalibrados. Se a imagem mudar, ajuste os recortes em `scripts/prepare-images.py`, os círculos do SVG no template e os pontos do zoom em `label-story.js`. O build exclui os originais com prefixo `WhatsApp Image ` da cópia para `dist/`.
 
 No mobile, o menu do cabeçalho dá acesso às quatro seções e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
 

@@ -57,8 +57,9 @@ export function mountLabelExplorer(section, {view = globalThis.window, page = gl
       description: button.querySelector('strong + span').textContent
     }));
     const initialCard = {title: cardTitle.textContent, description: cardDescription.textContent, count: cardCount.textContent};
-    // Percent coordinates in the original, uncropped 360 × 710 label canvas.
-    const focalPoints = [[31.94,51.97],[63.06,51.83],[75,50.70],[45.83,64.79],[51.39,79.58]];
+    // Percent coordinates of the official artwork crop, shown on the
+    // normalized 360 × 710 SVG canvas. Keep these aligned with its circles.
+    const focalPoints = [[31.67,54.08],[65,52.82],[76.11,52.68],[48.61,65.92],[50,81.55]];
     let explored = false;
     let selected = 0;
     let cardAnimation;

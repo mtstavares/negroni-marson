@@ -1411,6 +1411,8 @@ h1 em {
   left:0;
   top:0;
   mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent);
+  /* Frame the neck without fragments of captions outside the bottle. */
+  clip-path:polygon(27% 0,73% 0,73% 23%,100% 30%,100% 100%,0 100%,0 30%,27% 23%);
 }
 .label-traces {position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 1px 2px #3b210e);}
 .label-traces g {opacity:0;transition:opacity .35s;stroke:#ffe3a7;stroke-width:2;}

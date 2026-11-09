@@ -5,7 +5,7 @@ The production build uses these files without requiring Python or Pillow.
 """
 from pathlib import Path
 import json
-from PIL import Image, features
+from PIL import Image, ImageOps, features
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / 'assets'
@@ -31,9 +31,14 @@ def export(slug, image, widths, quality=88):
             report[slug]['files'].append({'path': f'assets/{output.name}', 'width': width, 'height': resized.height, 'bytes': output.stat().st_size})
 
 
-for name in ['classico', 'defumado']:
-    with Image.open(REFERENCES / f'{name}.png') as original:
-        export(name, original.convert('RGB'), [320, 480, 800, 1024], quality=90)
+official_bottles = [
+    ('classico-oficial', 'WhatsApp Image 2026-11-09 at 17.05.47.jpeg'),
+    ('defumado-oficial', 'WhatsApp Image 2026-11-09 at 17.05.48.jpeg'),
+]
+for slug, filename in official_bottles:
+    with Image.open(ASSETS / filename) as original:
+        export(slug, ImageOps.exif_transpose(original).convert('RGB'), [320, 480, 800, 1024], quality=90)
+        report[slug]['source'] = f'assets/{filename}'
 
 for name in ['presente-classico', 'presente-defumado']:
     with Image.open(REFERENCES / f'{name}.png') as original:
@@ -45,7 +50,6 @@ with Image.open(REFERENCES / 'marca-original.png') as original:
 # These are the exact visible artwork bounds from the supplied captures.
 # Cutting the surrounding social interface reduces decoding and network cost.
 captures = [
-    ('rotulo-detalhe', 'WhatsApp Image 2026-11-09 at 14.14.28 (1).jpeg', (365, 275, 725, 985), [360]),
     ('como-servir-arte', 'WhatsApp Image 2026-11-09 at 14.14.27 (1).jpeg', (0, 98, 540, 638), [360, 540]),
     ('bons-encontros-arte', 'WhatsApp Image 2026-11-09 at 14.14.27 (2).jpeg', (0, 86, 540, 806), [360, 540]),
     ('origem-amparo-arte', 'WhatsApp Image 2026-11-09 at 14.14.28.jpeg', (0, 217, 540, 937), [360, 540]),
@@ -53,6 +57,15 @@ captures = [
 for slug, filename, bounds, widths in captures:
     with Image.open(ASSETS / filename) as original:
         export(slug, original.convert('RGB').crop(bounds), widths, quality=92)
+
+# The official artwork replaces the Instagram capture. Keep the bottle crop
+# separate from the complete artwork so the interactive canvas stays legible.
+with Image.open(ASSETS / 'WhatsApp Image 2026-11-09 at 17.09.16.jpeg') as original:
+    artwork = ImageOps.exif_transpose(original).convert('RGB')
+    export('rotulo-oficial-completo', artwork, [540, 900], quality=94)
+    export('rotulo-oficial-detalhe', artwork.crop((220, 405, 680, 1312)), [360, 460], quality=94)
+    report['rotulo-oficial-detalhe']['crop'] = [220, 405, 680, 1312]
+    report['rotulo-oficial-detalhe']['source'] = 'assets/WhatsApp Image 2026-11-09 at 17.09.16.jpeg'
 
 # Small browser icons do not need six embedded bitmap resolutions.
 with Image.open(REFERENCES / 'favicon-marson-original.jpeg') as original:

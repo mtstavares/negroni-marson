@@ -175,7 +175,10 @@ assert.equal(touchSection.dataset.exploring,'true');
 assert.equal(touchNodes.get('#label-card-title').textContent,'O Cristo');
 assert.equal(markerButtons[2].attrs['aria-pressed'],'true');
 assert.equal(markerButtons[0].attrs['aria-pressed'],'false');
-assert.equal(touchSection.style.values['--label-focus-x'],'75%');
+const christCircle=html.match(/data-label-part="2"[^>]*>[\s\S]*?<circle cx="([\d.]+)" cy="([\d.]+)"/);
+assert(christCircle,'O destaque do Cristo deve existir no SVG');
+assert(Math.abs(parseFloat(touchSection.style.values['--label-focus-x'])-Number(christCircle[1])/360*100)<.01,'O zoom deve apontar para o Cristo na arte atual');
+assert(Math.abs(parseFloat(touchSection.style.values['--label-focus-y'])-Number(christCircle[2])/710*100)<.01,'O zoom e o destaque devem permanecer alinhados');
 assert.equal(touchNodes.get('#label-reset').hidden,false);
 assert.equal(pending,undefined);
 assert(touchNodes.get('#label-announcement').textContent.includes('Amparo'));
@@ -211,7 +214,7 @@ documentEvents.get('keydown')({key:'Escape',preventDefault(){escapePrevented=tru
 assert.equal(menu.open,false);assert(menuSummary.focused);assert(escapePrevented);
 
 assert.match(html,/<link rel="preload"[^>]+type="image\/avif"/);
-for(const name of ['classico-1024.avif','defumado-1024.avif','presente-classico-1216.avif','presente-defumado-1216.avif','rotulo-detalhe-360.avif']) await access(path.join(out,'assets',name));
+for(const name of ['classico-oficial-1024.avif','defumado-oficial-1024.avif','presente-classico-1216.avif','presente-defumado-1216.avif','rotulo-oficial-detalhe-460.avif','rotulo-oficial-completo-900.webp']) await access(path.join(out,'assets',name));
 const deferredTag=html.match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
 assert(deferredTag && !/\ssrc=/.test(deferredTag),'A foto do Defumado deve ser solicitada somente após seleção');
 assert((await stat(path.join(out,'assets/favicon-marson.ico'))).size<20_000,'Favicon desnecessariamente pesado');
@@ -224,6 +227,6 @@ const contrast=(a,b)=>{const x=[luminance(a),luminance(b)].sort((a,b)=>b-a);retu
 for(const [label,a,b] of [['Texto principal','#f6f1e6','#0b0b09'],['Texto secundário','#b4b0a5','#0b0b09'],['Botão dourado','#0b0b09','#e2be7b'],['Texto no creme','#575348','#f2ecdf'],['Destaque no creme','#76532c','#f2ecdf'],['Pedido: texto secundário','#bdb7a8','#181811']]){
   const ratio=contrast(a,b);assert(ratio>=4.5,`${label}: contraste insuficiente`);console.log(`${label}: ${ratio.toFixed(2)}:1`);
 }
-const heroSize=(await stat(path.join(out,'assets/classico-1024.avif'))).size;
+const heroSize=(await stat(path.join(out,'assets/classico-oficial-1024.avif'))).size;
 assert(heroSize<110_000,'Imagem principal em resolução nativa acima do orçamento de 110 KB');
 console.log(`OK: HTML, âncoras, imagens, CTAs (${orderLinks.length}), metadados, presente, animação do rótulo, pausa, movimento reduzido e contraste. Hero: ${heroSize} bytes.`);
