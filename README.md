@@ -42,25 +42,31 @@ Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.h
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
 | `site.config.json` | Canal de pedidos e URLs oficiais |
-| `assets/` | Imagens WebP locais, favicon e imagem de compartilhamento |
+| `assets/` | Imagens AVIF/WebP responsivas, favicon e imagem de compartilhamento |
 | `scripts/` | Build, servidor local, verificação e otimização de imagens |
 | `docs/ANALISE-DA-MARCA.md` | Fontes, fatos, interpretações e limites da linha do tempo |
 | `docs/GUIA-VISUAL.md` | Identidade visual aplicada |
 | `docs/CONTEUDOS-DO-INSTAGRAM.md` | Novas capturas, histórico parcial e conteúdo incorporado |
 | `docs/VALIDACAO.md` | O que foi verificado e o que ainda exige navegador |
+| `docs/REVISAO-GERAL.md` | Revisão de usabilidade, resolução, pesos e limitações das medições |
+| `docs/imagens-responsivas.json` | Manifesto das resoluções e tamanhos das imagens preparadas |
 | `docs/referencias/` | Artes originais oficiais e registro das fontes |
 
 ## Atualizar imagens e conteúdo
 
 As imagens usadas são **artes oficiais do catálogo**, sem confirmação de que sejam fotografias do produto físico. Os originais foram preservados em `docs/referencias/`. Use fotos próprias/autorizadas quando a marca fornecer o material, mantendo as descrições alternativas corretas.
 
-Para trocar uma imagem, substitua suas versões em `assets/`, mantenha a proporção e atualize `src`, `srcset`, `width`, `height` e `alt` em `src/index.template.html`. A imagem principal deve continuar leve; a atual tem 70 KB. `scripts/optimize-images.py` documenta o processamento original com Pillow, mas não é necessário para rodar ou publicar o site e usa fontes do Windows para compor o compartilhamento.
+Para preparar imagens, execute `python scripts/prepare-images.py` com Pillow e suporte a AVIF. O script gera versões AVIF/WebP dos originais disponíveis, sem ampliação artificial. A garrafa oferece até 1024 px e a caixa, 1216 px. O hero em AVIF tem cerca de 56 kB em 800 px ou 81 kB em resolução nativa. Python não é necessário para rodar ou publicar o site depois que os assets estão preparados.
 
-Na caixa presente, cenário, tampa, vidro e base da garrafa são fixos e idênticos nas duas seleções. O rótulo do Defumado é projetado na mesma superfície do Clássico por uma matriz de perspectiva recalculada conforme a largura da imagem. O arquivo `assets/mascara-garrafa-presente.svg` limita a alteração à superfície do rótulo; `.gift-bottle-layer` controla o fade de **0,9 segundo**. O `app.js` alterna a camada e a mensagem de pedido. Ao substituir as artes, recalibre `giftLabelProjection` e a máscara. A preferência por movimento reduzido remove o fade.
+Ao trocar uma imagem, preserve a proporção e atualize os `<source>`, `src`, `srcset`, `sizes`, `width`, `height` e `alt` em `src/index.template.html`. O preload do hero precisa continuar usando os mesmos candidatos e tamanhos da imagem principal. `docs/imagens-responsivas.json` registra os arquivos gerados.
+
+Na caixa presente, cenário, tampa, vidro e base da garrafa são fixos e idênticos nas duas seleções. O rótulo do Defumado é projetado na mesma superfície do Clássico por uma matriz de perspectiva recalculada conforme a largura da imagem. O arquivo `assets/mascara-garrafa-presente.svg` limita a alteração à superfície do rótulo; `.gift-bottle-layer` controla o fade de **0,9 segundo**. O `app.js` solicita a imagem alternativa somente após a escolha, informa carregamento/erro e oferece uma nova tentativa. Também sincroniza uma opção restaurada pelo navegador. Ao substituir as artes, recalibre `giftLabelProjection` e a máscara. A preferência por movimento reduzido remove o fade.
 
 No mobile (até 760 px), “Por trás do rótulo” funciona por toque: cinco marcadores de 44 px selecionam um detalhe, dão zoom na arte e atualizam o cartão explicativo abaixo. O botão “Ver o rótulo sem zoom” restaura a visão geral. Não há reprodução automática nessa versão. Os textos do cartão vêm da lista do próprio HTML, evitando manter duas cópias. No desktop, a exploração pela lista e a reprodução com pausa continuam disponíveis. Sem JavaScript, a lista completa permanece legível no celular.
 
-As capturas do Instagram adicionadas pelo solicitante permanecem em `assets/`. Execute `python scripts/prepare-instagram-assets.py` com Pillow instalado para regenerar as versões WebP utilizadas. A seção do rótulo e as artes editoriais usam enquadramentos em CSS, definidos em `.label-window` e `.post-frame`; se a composição da captura mudar, esses enquadramentos e os pontos do SVG precisam ser ajustados. O build copia as versões otimizadas e exclui os originais com prefixo `WhatsApp Image `.
+As capturas do Instagram adicionadas pelo solicitante permanecem em `assets/`. O novo script prepara somente as áreas da arte usadas pela página, sem carregar a interface e as legendas que antes eram ocultadas em CSS. Se a captura mudar, ajuste os recortes em `scripts/prepare-images.py` e os pontos do SVG/zoom em `label-story.js`. O build exclui os originais com prefixo `WhatsApp Image ` da cópia para `dist/`.
+
+No mobile, o menu do cabeçalho dá acesso às quatro seções e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
 
 Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem entrar após confirmação. As informações técnicas atuais foram lidas nos rótulos das artes oficiais, conforme o relatório de análise.
 

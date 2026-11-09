@@ -1,0 +1,356 @@
+{
+  "classico": {
+    "sourceWidth": 1024,
+    "sourceHeight": 1484,
+    "files": [
+      {
+        "path": "assets/classico-320.webp",
+        "width": 320,
+        "height": 464,
+        "bytes": 20728
+      },
+      {
+        "path": "assets/classico-320.avif",
+        "width": 320,
+        "height": 464,
+        "bytes": 14446
+      },
+      {
+        "path": "assets/classico-480.webp",
+        "width": 480,
+        "height": 696,
+        "bytes": 38684
+      },
+      {
+        "path": "assets/classico-480.avif",
+        "width": 480,
+        "height": 696,
+        "bytes": 26985
+      },
+      {
+        "path": "assets/classico-800.webp",
+        "width": 800,
+        "height": 1159,
+        "bytes": 84270
+      },
+      {
+        "path": "assets/classico-800.avif",
+        "width": 800,
+        "height": 1159,
+        "bytes": 55953
+      },
+      {
+        "path": "assets/classico-1024.webp",
+        "width": 1024,
+        "height": 1484,
+        "bytes": 124290
+      },
+      {
+        "path": "assets/classico-1024.avif",
+        "width": 1024,
+        "height": 1484,
+        "bytes": 81259
+      }
+    ]
+  },
+  "defumado": {
+    "sourceWidth": 1024,
+    "sourceHeight": 1447,
+    "files": [
+      {
+        "path": "assets/defumado-320.webp",
+        "width": 320,
+        "height": 452,
+        "bytes": 24922
+      },
+      {
+        "path": "assets/defumado-320.avif",
+        "width": 320,
+        "height": 452,
+        "bytes": 16423
+      },
+      {
+        "path": "assets/defumado-480.webp",
+        "width": 480,
+        "height": 678,
+        "bytes": 45436
+      },
+      {
+        "path": "assets/defumado-480.avif",
+        "width": 480,
+        "height": 678,
+        "bytes": 30275
+      },
+      {
+        "path": "assets/defumado-800.webp",
+        "width": 800,
+        "height": 1130,
+        "bytes": 97638
+      },
+      {
+        "path": "assets/defumado-800.avif",
+        "width": 800,
+        "height": 1130,
+        "bytes": 61834
+      },
+      {
+        "path": "assets/defumado-1024.webp",
+        "width": 1024,
+        "height": 1447,
+        "bytes": 139922
+      },
+      {
+        "path": "assets/defumado-1024.avif",
+        "width": 1024,
+        "height": 1447,
+        "bytes": 87422
+      }
+    ]
+  },
+  "presente-classico": {
+    "sourceWidth": 1216,
+    "sourceHeight": 1216,
+    "files": [
+      {
+        "path": "assets/presente-classico-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 69908
+      },
+      {
+        "path": "assets/presente-classico-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 43084
+      },
+      {
+        "path": "assets/presente-classico-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 108680
+      },
+      {
+        "path": "assets/presente-classico-640.avif",
+        "width": 640,
+        "height": 640,
+        "bytes": 67217
+      },
+      {
+        "path": "assets/presente-classico-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 205902
+      },
+      {
+        "path": "assets/presente-classico-960.avif",
+        "width": 960,
+        "height": 960,
+        "bytes": 127674
+      },
+      {
+        "path": "assets/presente-classico-1216.webp",
+        "width": 1216,
+        "height": 1216,
+        "bytes": 291414
+      },
+      {
+        "path": "assets/presente-classico-1216.avif",
+        "width": 1216,
+        "height": 1216,
+        "bytes": 176784
+      }
+    ]
+  },
+  "presente-defumado": {
+    "sourceWidth": 1216,
+    "sourceHeight": 1216,
+    "files": [
+      {
+        "path": "assets/presente-defumado-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 70578
+      },
+      {
+        "path": "assets/presente-defumado-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 43332
+      },
+      {
+        "path": "assets/presente-defumado-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 110900
+      },
+      {
+        "path": "assets/presente-defumado-640.avif",
+        "width": 640,
+        "height": 640,
+        "bytes": 67410
+      },
+      {
+        "path": "assets/presente-defumado-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 208840
+      },
+      {
+        "path": "assets/presente-defumado-960.avif",
+        "width": 960,
+        "height": 960,
+        "bytes": 124165
+      },
+      {
+        "path": "assets/presente-defumado-1216.webp",
+        "width": 1216,
+        "height": 1216,
+        "bytes": 288008
+      },
+      {
+        "path": "assets/presente-defumado-1216.avif",
+        "width": 1216,
+        "height": 1216,
+        "bytes": 171812
+      }
+    ]
+  },
+  "marca-original": {
+    "sourceWidth": 1254,
+    "sourceHeight": 1254,
+    "files": [
+      {
+        "path": "assets/marca-original-96.webp",
+        "width": 96,
+        "height": 96,
+        "bytes": 3346
+      },
+      {
+        "path": "assets/marca-original-96.avif",
+        "width": 96,
+        "height": 96,
+        "bytes": 2644
+      },
+      {
+        "path": "assets/marca-original-256.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 12958
+      },
+      {
+        "path": "assets/marca-original-256.avif",
+        "width": 256,
+        "height": 256,
+        "bytes": 8438
+      }
+    ]
+  },
+  "rotulo-detalhe": {
+    "sourceWidth": 360,
+    "sourceHeight": 710,
+    "files": [
+      {
+        "path": "assets/rotulo-detalhe-360.webp",
+        "width": 360,
+        "height": 710,
+        "bytes": 66600
+      },
+      {
+        "path": "assets/rotulo-detalhe-360.avif",
+        "width": 360,
+        "height": 710,
+        "bytes": 38840
+      }
+    ]
+  },
+  "como-servir-arte": {
+    "sourceWidth": 540,
+    "sourceHeight": 540,
+    "files": [
+      {
+        "path": "assets/como-servir-arte-360.webp",
+        "width": 360,
+        "height": 360,
+        "bytes": 47544
+      },
+      {
+        "path": "assets/como-servir-arte-360.avif",
+        "width": 360,
+        "height": 360,
+        "bytes": 29174
+      },
+      {
+        "path": "assets/como-servir-arte-540.webp",
+        "width": 540,
+        "height": 540,
+        "bytes": 90526
+      },
+      {
+        "path": "assets/como-servir-arte-540.avif",
+        "width": 540,
+        "height": 540,
+        "bytes": 55931
+      }
+    ]
+  },
+  "bons-encontros-arte": {
+    "sourceWidth": 540,
+    "sourceHeight": 720,
+    "files": [
+      {
+        "path": "assets/bons-encontros-arte-360.webp",
+        "width": 360,
+        "height": 480,
+        "bytes": 52932
+      },
+      {
+        "path": "assets/bons-encontros-arte-360.avif",
+        "width": 360,
+        "height": 480,
+        "bytes": 32428
+      },
+      {
+        "path": "assets/bons-encontros-arte-540.webp",
+        "width": 540,
+        "height": 720,
+        "bytes": 93200
+      },
+      {
+        "path": "assets/bons-encontros-arte-540.avif",
+        "width": 540,
+        "height": 720,
+        "bytes": 57466
+      }
+    ]
+  },
+  "origem-amparo-arte": {
+    "sourceWidth": 540,
+    "sourceHeight": 720,
+    "files": [
+      {
+        "path": "assets/origem-amparo-arte-360.webp",
+        "width": 360,
+        "height": 480,
+        "bytes": 53234
+      },
+      {
+        "path": "assets/origem-amparo-arte-360.avif",
+        "width": 360,
+        "height": 480,
+        "bytes": 32718
+      },
+      {
+        "path": "assets/origem-amparo-arte-540.webp",
+        "width": 540,
+        "height": 720,
+        "bytes": 96568
+      },
+      {
+        "path": "assets/origem-amparo-arte-540.avif",
+        "width": 540,
+        "height": 720,
+        "bytes": 59001
+      }
+    ]
+  }
+}

@@ -43,18 +43,23 @@ assert.match(html,/name="twitter:card"/);
 
 // Exercise the actual gift-selection event handler without a browser dependency.
 const elements=new Map();
-for(const id of ['#gift-image','#gift-order','#gift-status','#year','#gift-scene','#gift-bottle-overlay']) elements.set(id,{dataset:{classico:'https://wa.me/5519999060077?text=classico',defumado:'https://wa.me/5519999060077?text=defumado'},replaceChildren(node){this.label=node.textContent;},append(){}});
+for(const id of ['#gift-image','#gift-order','#gift-status','#year','#gift-scene','#gift-bottle-overlay','#gift-bottle-avif','#gift-image-retry']) elements.set(id,{dataset:{classico:'https://wa.me/5519999060077?text=classico',defumado:'https://wa.me/5519999060077?text=defumado'},attrs:{},setAttribute(name,value){this.attrs[name]=value;},removeAttribute(name){delete this[name];},addEventListener(name,callback){this[name]=callback;},replaceChildren(node){this.label=node.textContent;},append(){}});
 const background=elements.get('#gift-image');
-background.src='assets/presente-classico-1000.webp';
-background.srcset='assets/presente-classico-640.webp 640w, assets/presente-classico-1000.webp 1000w';
+background.src='assets/presente-classico-960.webp';
+background.srcset='assets/presente-classico-640.webp 640w, assets/presente-classico-1216.webp 1216w';
 elements.get('#gift-scene').dataset.version='classico';
 elements.get('#gift-scene').clientWidth=1000;
 elements.get('#gift-bottle-overlay').style={};
+elements.get('#gift-bottle-overlay').dataset.src='assets/presente-defumado-960.webp';
+elements.get('#gift-bottle-overlay').dataset.srcset='assets/presente-defumado-640.webp 640w, assets/presente-defumado-1216.webp 1216w';
+elements.get('#gift-bottle-avif').media='not all';
 elements.get('#gift-bottle-overlay').decode=async()=>{};
 const inputs=['classico','defumado'].map(value=>({value,addEventListener(event,handler){this.change=handler;}}));
 const document={querySelector:id=>elements.get(id),querySelectorAll:()=>inputs,createTextNode:textContent=>({textContent}),createElement:()=>({setAttribute(){}})};
 const giftContext={document,Date};
 vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),giftContext);
+assert.equal(elements.get('#gift-bottle-overlay').src,undefined,'A imagem opcional deve aguardar a escolha do visitante');
+assert.equal(elements.get('#gift-bottle-avif').media,'not all');
 // The printed label must follow the same four corners at every viewport size.
 const labelCorners=[[[741,530],[747,489]],[[898,549],[891,517]],[[699,730],[716,657]],[[879,755],[868,686]]];
 for(const width of [320,640,1000]) {
@@ -70,13 +75,14 @@ for(const width of [320,640,1000]) {
 }
 for(const input of [inputs[1],inputs[0]]){
   await input.change();
-  assert.equal(background.src,'assets/presente-classico-1000.webp','O cenário deve permanecer estático');
-  assert.equal(background.srcset,'assets/presente-classico-640.webp 640w, assets/presente-classico-1000.webp 1000w');
+  assert.equal(background.src,'assets/presente-classico-960.webp','O cenário deve permanecer estático');
+  assert.equal(background.srcset,'assets/presente-classico-640.webp 640w, assets/presente-classico-1216.webp 1216w');
   assert.equal(elements.get('#gift-scene').dataset.version,input.value);
   assert.equal(elements.get('#gift-order').href,elements.get('#gift-order').dataset[input.value]);
   assert(elements.get('#gift-image').alt.includes(input.value==='classico'?'Clássico':'Defumado'));
   assert(elements.get('#gift-order').label.includes(input.value==='classico'?'Clássico':'Defumado'));
 }
+assert.equal(elements.get('#gift-bottle-avif').media,'all');
 // A slow first decode must never overwrite a newer selection.
 let finishDecode;
 elements.get('#gift-bottle-overlay').decode=()=>new Promise(resolve=>{finishDecode=resolve;});
@@ -89,6 +95,17 @@ elements.get('#gift-bottle-overlay').decode=async()=>{throw new Error('Imagem in
 await inputs[1].change();
 assert.equal(elements.get('#gift-scene').dataset.version,'classico');
 assert(elements.get('#gift-status').textContent.includes('não pôde ser carregada'));
+assert.equal(elements.get('#gift-image-retry').hidden,false);
+elements.get('#gift-bottle-overlay').decode=async()=>{};
+await elements.get('#gift-image-retry').click();
+assert.equal(elements.get('#gift-scene').dataset.version,'defumado');
+assert.equal(elements.get('#gift-image-retry').hidden,true);
+assert.equal(elements.get('#gift-scene').attrs['aria-busy'],'false');
+elements.set('input[name="gift"]:checked',{value:'classico'});
+await giftContext.syncGiftSelection();
+assert.equal(elements.get('#gift-scene').dataset.version,'classico','Restaurar a opção marcada pelo navegador');
+assert.equal(elements.get('#gift-order').href,elements.get('#gift-order').dataset.classico);
+elements.delete('input[name="gift"]:checked');
 await access(path.join(out,'assets/mascara-garrafa-presente.svg'));
 
 // Automatic label exploration must stop offscreen, when paused, on a hidden
@@ -172,6 +189,27 @@ assert.equal(touchNodes.get('#label-card-title').textContent,'#label-card-title'
 assert.equal(touchNodes.get('#label-reset').hidden,true);
 explorer.destroy();assert.equal(pending,undefined);
 
+// Mobile navigation must close on selection, Escape and an outside click.
+const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:4},()=>uiNode());
+menu.querySelector=()=>menuSummary;menu.querySelectorAll=()=>menuLinks;
+menu.contains=target=>target===menu||target===menuSummary||menuLinks.includes(target);
+elements.set('#mobile-navigation',menu);
+const documentEvents=new Map();
+const menuDocument={...document,addEventListener:(name,callback)=>documentEvents.set(name,callback)};
+vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),{document:menuDocument,Date});
+menu.open=true;menuLinks[2].fire('click');assert.equal(menu.open,false);
+menu.open=true;documentEvents.get('click')({target:menuSummary});assert.equal(menu.open,true);
+documentEvents.get('click')({target:{}});assert.equal(menu.open,false);
+menu.open=true;let escapePrevented=false;
+documentEvents.get('keydown')({key:'Escape',preventDefault(){escapePrevented=true;}});
+assert.equal(menu.open,false);assert(menuSummary.focused);assert(escapePrevented);
+
+assert.match(html,/<link rel="preload"[^>]+type="image\/avif"/);
+for(const name of ['classico-1024.avif','defumado-1024.avif','presente-classico-1216.avif','presente-defumado-1216.avif','rotulo-detalhe-360.avif']) await access(path.join(out,'assets',name));
+const deferredTag=html.match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
+assert(deferredTag && !/\ssrc=/.test(deferredTag),'A foto do Defumado deve ser solicitada somente após seleção');
+assert((await stat(path.join(out,'assets/favicon-marson.ico'))).size<20_000,'Favicon desnecessariamente pesado');
+
 const luminance=hex=>{
   const [r,g,b]=hex.match(/[\da-f]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
   return .2126*r+.7152*g+.0722*b;
@@ -180,6 +218,6 @@ const contrast=(a,b)=>{const x=[luminance(a),luminance(b)].sort((a,b)=>b-a);retu
 for(const [label,a,b] of [['Texto principal','#f6f1e6','#0b0b09'],['Texto secundário','#b4b0a5','#0b0b09'],['Botão dourado','#0b0b09','#e2be7b'],['Texto no creme','#575348','#f2ecdf'],['Destaque no creme','#76532c','#f2ecdf'],['Pedido: texto secundário','#bdb7a8','#181811']]){
   const ratio=contrast(a,b);assert(ratio>=4.5,`${label}: contraste insuficiente`);console.log(`${label}: ${ratio.toFixed(2)}:1`);
 }
-const heroSize=(await stat(path.join(out,'assets/classico-800.webp'))).size;
-assert(heroSize<100_000,'Imagem principal acima do orçamento de 100 KB');
+const heroSize=(await stat(path.join(out,'assets/classico-1024.avif'))).size;
+assert(heroSize<110_000,'Imagem principal em resolução nativa acima do orçamento de 110 KB');
 console.log(`OK: HTML, âncoras, imagens, CTAs (${orderLinks.length}), metadados, presente, animação do rótulo, pausa, movimento reduzido e contraste. Hero: ${heroSize} bytes.`);

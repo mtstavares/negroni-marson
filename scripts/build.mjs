@@ -28,7 +28,9 @@ export async function build(){
   if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
   // Give returning GitHub Pages visitors the matching assets after each edit.
   for(const file of ['styles.css','app.js','label-story.js','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
-    const hash=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex').slice(0,10);
+    const bytes=await readFile(path.join(root,file));
+    const content=/\.(css|js)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes;
+    const hash=createHash('sha256').update(content).digest('hex').slice(0,10);
     html=html.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
   }
   const out=path.join(root,'dist');
