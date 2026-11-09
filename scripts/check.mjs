@@ -8,6 +8,12 @@ import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
 const {html,config,out}=await build();
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
 assert(!html.includes('{{'),'GitHub Pages não deve receber marcadores de template');
+const sourceCname=await readFile(path.join(root,'CNAME'),'utf8').catch(error=>{
+  if(error.code==='ENOENT') return null;
+  throw error;
+});
+if(sourceCname!==null) assert.equal(await readFile(path.join(out,'CNAME'),'utf8'),sourceCname,'O domínio deve ser preservado no build');
+else await assert.rejects(access(path.join(out,'CNAME')),{code:'ENOENT'},'Build sem domínio não deve conservar CNAME antigo');
 assert(html.includes(config.whatsappDisplay),'O telefone oficial precisa estar visível');
 assert(html.includes(config.facebookUrl),'Link oficial do Facebook ausente');
 if(config.siteUrl) {

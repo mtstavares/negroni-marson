@@ -41,6 +41,16 @@ export async function build(){
   const entry=path.join(root,'index.html');
   if(await readFile(entry,'utf8').catch(()=>'') !== html) await writeFile(entry,html);
   await writeFile(path.join(out,'.nojekyll'),'');
+  // Pages stores the custom domain in the source root. Preserve it when
+  // publishing dist as well, and clear an old generated copy after removal.
+  const cname=await readFile(path.join(root,'CNAME'),'utf8').catch(error=>{
+    if(error.code==='ENOENT') return null;
+    throw error;
+  });
+  if(cname!==null) await writeFile(path.join(out,'CNAME'),cname);
+  else await unlink(path.join(out,'CNAME')).catch(error=>{
+    if(error.code!=='ENOENT') throw error;
+  });
   for(const file of ['styles.css','app.js','label-story.js','assets']) await cp(path.join(root,file),path.join(out,file),{
     recursive:true,
     // Keep supplied Instagram captures in the workspace; ship optimized assets.

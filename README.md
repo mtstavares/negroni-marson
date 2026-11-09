@@ -28,7 +28,7 @@ Edite somente **`site.config.json`**:
 - `orderMessages`: mensagens de cada versão e caixa. O build adiciona `text` quando o destino é `wa.me` ou `api.whatsapp.com`.
 - `whatsappDisplay`: número legível apresentado na abertura, na seção de pedidos e no rodapé. Hoje: **+55 (19) 99906-0077**, confirmado no Linktree da marca.
 - `instagramUrl`, `catalogUrl` e `facebookUrl`: links institucionais confirmados no Linktree oficial.
-- `siteUrl`: endereço HTTPS da landing page, sem barra final. Configurado como `https://mtstavares.github.io/negroni-marson`, cuja página pública foi consultada. Gera canonical, `og:url` e imagem de compartilhamento com URL absoluta.
+- `siteUrl`: endereço HTTPS da landing page, sem barra final. Configurado como `https://www.negronimarson.com.br`. Gera canonical, `og:url` e imagem de compartilhamento com URL absoluta. O acesso público depende da propagação do DNS e da emissão do certificado pelo Pages.
 
 Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.html` da raiz**, que já fica pronto para o GitHub Pages, com todos os links resolvidos. Não edite esses HTMLs gerados diretamente: edite `src/index.template.html`. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
 
@@ -72,8 +72,10 @@ Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem ent
 
 ## Publicar
 
+Para configurar ou conferir **www.negronimarson.com.br** no GitHub Pages, siga [o roteiro de domínio próprio](docs/DOMINIO-PROPRIO.md). O arquivo `CNAME` e `siteUrl` já usam esse endereço. O build preserva em `dist/` o arquivo `CNAME` da raiz, quando existir.
+
 Para **GitHub Pages publicando a raiz da branch**: execute `npm.cmd run check` e `npm.cmd run build`, depois envie as alterações ao GitHub, incluindo `index.html`, `.nojekyll`, `assets/`, os scripts da página e os demais arquivos fonte modificados. O `index.html` da raiz contém HTML estático completo, sem marcadores visíveis, e funciona com a configuração de publicação já utilizada. O build inclui uma versão nos URLs de CSS e JavaScript para evitar que visitantes continuem usando arquivos antigos em cache. Não selecione `src/` como pasta de publicação.
 
-Para outra hospedagem estática ou um workflow que publique artefatos: use somente o conteúdo de `dist/`. Não há backend nem banco de dados. Esta atualização foi preparada localmente; as alterações ainda precisam ser enviadas ao repositório para atualizar o site público.
+Para outra hospedagem estática ou um workflow que publique artefatos: use somente o conteúdo de `dist/`. Não há backend nem banco de dados. Após cada atualização, envie as alterações ao repositório para atualizar o site público.
 
 Antes da publicação, conclua a inspeção visual real em desktop e celular descrita em `docs/VALIDACAO.md`. O controle de navegador disponível nesta sessão foi interrompido pela ferramenta.
