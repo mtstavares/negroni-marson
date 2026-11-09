@@ -20,7 +20,7 @@ A frase de abertura criada para a página é **“Um clássico. O seu momento.�
 | Caixa em tons quentes | Fundo creme e tipografia escura para a seção de presentes |
 | Mensagem de tradição italiana e alma brasileira | Proposta do hero, faixa de assinatura e rodapé |
 
-O favicon com “M” é uma adaptação funcional de navegação, sem substituir a assinatura oficial. Não foi criada uma embalagem fictícia nem alterado o rótulo nas imagens.
+O favicon usa a imagem da assinatura circular MARSON enviada pelo solicitante em 09/11/2026, com tamanhos próprios para aba do navegador e ícone de toque. O original está preservado em `docs/referencias/favicon-marson-original.jpeg`. Não foi criada uma embalagem fictícia nem alterado o rótulo nas imagens.
 
 ## Paleta
 

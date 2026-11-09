@@ -26,8 +26,8 @@ export async function build(){
     .replaceAll('{{socialImage}}',escape(siteUrl?`${siteUrl}/assets/social.jpg`:'assets/social.jpg'))
     .replaceAll('{{canonical}}',siteUrl?`<link rel="canonical" href="${escape(siteUrl)}/"><meta property="og:url" content="${escape(siteUrl)}/">`:'');
   if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
-  // Give returning GitHub Pages visitors the matching CSS/JS after each edit.
-  for(const file of ['styles.css','app.js','label-story.js']) {
+  // Give returning GitHub Pages visitors the matching assets after each edit.
+  for(const file of ['styles.css','app.js','label-story.js','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
     const hash=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex').slice(0,10);
     html=html.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
   }
