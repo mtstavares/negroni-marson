@@ -26,16 +26,18 @@ Edite somente **`site.config.json`**:
 
 - `orderBaseUrl`: destino central de todos os botões. Hoje é o WhatsApp confirmado no Linktree oficial: `https://wa.me/5519999060077`.
 - `orderMessages`: mensagens de cada versão e caixa. O build adiciona `text` quando o destino é `wa.me` ou `api.whatsapp.com`.
-- `instagramUrl` e `catalogUrl`: links institucionais.
-- `siteUrl`: endereço HTTPS definitivo da landing page, sem barra final. Deixado vazio porque nenhum domínio foi informado. Preencha antes de publicar para gerar canonical, `og:url` e imagens de compartilhamento com URL absoluta.
+- `whatsappDisplay`: número legível apresentado na abertura, na seção de pedidos e no rodapé. Hoje: **+55 (19) 99906-0077**, confirmado no Linktree da marca.
+- `instagramUrl`, `catalogUrl` e `facebookUrl`: links institucionais confirmados no Linktree oficial.
+- `siteUrl`: endereço HTTPS da landing page, sem barra final. Configurado como `https://mtstavares.github.io/negroni-marson`, cuja página pública foi consultada. Gera canonical, `og:url` e imagem de compartilhamento com URL absoluta.
 
-Execute novamente `npm.cmd run build`. Não edite `dist/` diretamente. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
+Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.html` da raiz**, que já fica pronto para o GitHub Pages, com todos os links resolvidos. Não edite esses HTMLs gerados diretamente: edite `src/index.template.html`. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
 
 ## Arquivos
 
 | Arquivo | Uso |
 | --- | --- |
-| `index.html` | Conteúdo e estrutura; os marcadores `{{...}}` são resolvidos no build |
+| `src/index.template.html` | Fonte do conteúdo e estrutura; marcadores são resolvidos no build |
+| `index.html` | HTML final gerado e versionado, pronto para servir pela raiz do GitHub Pages |
 | `styles.css` | Identidade visual, espaçamentos e versões responsivas |
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
@@ -52,9 +54,9 @@ Execute novamente `npm.cmd run build`. Não edite `dist/` diretamente. Os links 
 
 As imagens usadas são **artes oficiais do catálogo**, sem confirmação de que sejam fotografias do produto físico. Os originais foram preservados em `docs/referencias/`. Use fotos próprias/autorizadas quando a marca fornecer o material, mantendo as descrições alternativas corretas.
 
-Para trocar uma imagem, substitua suas versões em `assets/`, mantenha a proporção e atualize `src`, `srcset`, `width`, `height` e `alt` no HTML. A imagem principal deve continuar leve; a atual tem 70 KB. `scripts/optimize-images.py` documenta o processamento original com Pillow, mas não é necessário para rodar ou publicar o site e usa fontes do Windows para compor o compartilhamento.
+Para trocar uma imagem, substitua suas versões em `assets/`, mantenha a proporção e atualize `src`, `srcset`, `width`, `height` e `alt` em `src/index.template.html`. A imagem principal deve continuar leve; a atual tem 70 KB. `scripts/optimize-images.py` documenta o processamento original com Pillow, mas não é necessário para rodar ou publicar o site e usa fontes do Windows para compor o compartilhamento.
 
-Na caixa presente, a arte do Clássico é o cenário fixo. A versão Defumado aparece em uma camada sobreposta, limitada à garrafa pelo arquivo `assets/mascara-garrafa-presente.svg`, com fade de 1,4 segundo. A camada possui ajuste de inclinação, largura, altura e posição em `.gift-bottle-overlay`, calibrado pela tampa e pelos dois cantos da base do Clássico. O `app.js` alterna a visibilidade dessa camada e a mensagem de pedido; nunca troca o arquivo do cenário. Ao substituir essas artes, confira a máscara e o alinhamento antes de publicar. A preferência por movimento reduzido remove o fade.
+Na caixa presente, cenário, tampa, vidro e base da garrafa são fixos e idênticos nas duas seleções. O rótulo do Defumado é projetado na mesma superfície do Clássico por uma matriz de perspectiva recalculada conforme a largura da imagem. O arquivo `assets/mascara-garrafa-presente.svg` limita a alteração à superfície do rótulo; `.gift-bottle-layer` controla o fade de **0,9 segundo**. O `app.js` alterna a camada e a mensagem de pedido. Ao substituir as artes, recalibre `giftLabelProjection` e a máscara. A preferência por movimento reduzido remove o fade.
 
 No mobile (até 760 px), “Por trás do rótulo” funciona por toque: cinco marcadores de 44 px selecionam um detalhe, dão zoom na arte e atualizam o cartão explicativo abaixo. O botão “Ver o rótulo sem zoom” restaura a visão geral. Não há reprodução automática nessa versão. Os textos do cartão vêm da lista do próprio HTML, evitando manter duas cópias. No desktop, a exploração pela lista e a reprodução com pausa continuam disponíveis. Sem JavaScript, a lista completa permanece legível no celular.
 
@@ -64,6 +66,8 @@ Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem ent
 
 ## Publicar
 
-Preencha `siteUrl`, rode o check e o build e envie **somente o conteúdo de `dist/`** para uma hospedagem estática com HTTPS. Não há serviço de backend nem banco de dados. Não foi feita publicação externa: a entrega foi implementada nesta pasta, conforme solicitado.
+Para **GitHub Pages publicando a raiz da branch**: execute `npm.cmd run check` e `npm.cmd run build`, depois envie as alterações ao GitHub, incluindo `index.html`, `.nojekyll`, `assets/`, os scripts da página e os demais arquivos fonte modificados. O `index.html` da raiz contém HTML estático completo, sem marcadores visíveis, e funciona com a configuração de publicação já utilizada. O build inclui uma versão nos URLs de CSS e JavaScript para evitar que visitantes continuem usando arquivos antigos em cache. Não selecione `src/` como pasta de publicação.
+
+Para outra hospedagem estática ou um workflow que publique artefatos: use somente o conteúdo de `dist/`. Não há backend nem banco de dados. Esta atualização foi preparada localmente; as alterações ainda precisam ser enviadas ao repositório para atualizar o site público.
 
 Antes da publicação, conclua a inspeção visual real em desktop e celular descrita em `docs/VALIDACAO.md`. O controle de navegador disponível nesta sessão foi interrompido pela ferramenta.

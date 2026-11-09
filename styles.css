@@ -498,27 +498,45 @@ h1 em {
   height:auto;
   aspect-ratio:1;
 }
-.gift-photo .gift-bottle-overlay {
+.gift-bottle-layer {
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   opacity:0;
   pointer-events:none;
-  -webkit-mask-image:url('assets/mascara-garrafa-presente.svg');
-  mask-image:url('assets/mascara-garrafa-presente.svg');
+  -webkit-mask-image:url('assets/mascara-garrafa-presente.svg?v=label-surface-2');
+  mask-image:url('assets/mascara-garrafa-presente.svg?v=label-surface-2');
   -webkit-mask-size:100% 100%;
   mask-size:100% 100%;
   -webkit-mask-repeat:no-repeat;
   mask-repeat:no-repeat;
-  /* Register cap center and both base corners to the Clássico bottle. The
-     affine fit corrects inclination, width and height in the fixed scene. */
-  transform-origin:0 0;
-  transform:translate(6.33555%,4.59744%) matrix(.934251,.023576,-.016823,.876350,0,0);
-  transition:opacity 1400ms cubic-bezier(.45,0,.55,1);
+  overflow:hidden;
+  transition:opacity 900ms cubic-bezier(.45,0,.55,1);
 }
-.gift-scene[data-version="defumado"] .gift-bottle-overlay {
+.gift-photo .gift-bottle-overlay {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  /* The responsive projective matrix is supplied by registerGiftPerspective. */
+  transform-origin:0 0;
+}
+.gift-scene[data-version="defumado"] .gift-bottle-layer {
   opacity:1;
+}
+
+.cta-note a {color:var(--gold);text-decoration:underline;text-underline-offset:3px;white-space:nowrap;}
+.order-intro>.order-contact {font-size:10px;line-height:1.8;color:var(--muted);margin:18px 0 0;}
+.order-contact a {display:block;font-size:15px;color:var(--gold);width:fit-content;padding:3px 0;border-bottom:1px solid #655a43;}
+.order-contact a span {margin-left:12px;}
+.footer-links {display:grid;gap:8px;}
+.footer-links a {display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:32px;font-size:11px;color:#d6c7a9;border-bottom:1px solid #534c3b;padding:5px 0;}
+.footer-links a:hover {color:var(--gold);}
+@media(max-width:760px) {
+  .footer-links {width:100%;gap:9px;}
+  .footer-links a {min-height:44px;font-size:11px;}
 }
 .gift-content {
   padding:clamp(40px,6vw,96px);

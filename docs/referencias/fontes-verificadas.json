@@ -43,5 +43,18 @@
       "following": 84
     },
     "limitations": "HTML sem bio utiliz?vel, datas ou permalinks. Consulta p?blica adicional respondeu HTTP 429."
+  },
+  "lastVerifiedOn": "2026-11-09",
+  "contacts": {
+    "whatsapp": "https://wa.me/5519999060077",
+    "whatsappDisplay": "+55 (19) 99906-0077",
+    "instagram": "https://www.instagram.com/negronimarson/",
+    "facebook": "https://www.facebook.com/share/19dqqGa7ie/?mibextid=wwXIfr",
+    "source": "https://linktr.ee/negronimarson"
+  },
+  "publishedSite": {
+    "url": "https://mtstavares.github.io/negroni-marson/",
+    "status": 200,
+    "observedIssue": "HTML publicado antes do build, com marcadores de template nos metadados e links."
   }
 }

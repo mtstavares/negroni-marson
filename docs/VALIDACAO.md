@@ -1,6 +1,8 @@
 # Validação da entrega
 
-Atualização da troca de versão na caixa presente: o cenário é uma imagem fixa; a garrafa do Defumado é uma camada mascarada, agora alinhada por uma transformação afim que ajusta tampa e cantos da base à posição do Clássico. Uma prévia técnica rasterizada da composição SVG/CSS foi inspecionada para corrigir tamanho e inclinação. A opacidade da camada varia por 1,4 segundo e o modo de movimento reduzido remove a transição. Os checks verificam que `src` e `srcset` da base permanecem constantes, a última seleção prevalece durante carregamento lento e uma falha de decodificação mantém a imagem base e informa a indisponibilidade. A inspeção técnica das camadas não equivale a uma validação da animação em navegador.
+Atualização da perspectiva na caixa presente: a silhueta, a tampa, o vidro e a base passam a ser exatamente os mesmos nas duas versões. A arte do rótulo do Defumado é projetada sobre a superfície do Clássico, com máscara fixa e fade de 0,9 segundo. Uma prévia técnica rasterizada foi inspecionada para conferir a composição. Os checks verificam os quatro cantos da projeção em larguras de 320, 640 e 1000 px, além de preservação da base, seleções rápidas e falha de carregamento. A inspeção técnica das camadas não equivale à validação da animação em navegador.
+
+Correção do GitHub Pages: a página pública `https://mtstavares.github.io/negroni-marson/` respondeu HTTP 200, mas continha marcadores não resolvidos em canonical, contatos e metadados. A fonte foi movida para `src/index.template.html`; o build agora gera HTML pronto tanto na raiz quanto em `dist/`. Os checks verificam igualdade entre as duas saídas, ausência de marcadores, canonical e imagem de compartilhamento absolutos. Instagram, Facebook e WhatsApp foram novamente confirmados pelo HTML público do Linktree. As correções são locais e ainda precisam ser enviadas ao GitHub.
 
 Atualização do rótulo no mobile: cinco marcadores selecionam o detalhe, atualizam o cartão com o texto original e acionam zoom localizado. O teste executa os listeners reais em DOM simulado e verifica seleção, conteúdo, anúncio acessível, foco, navegação por setas, retorno à visão geral, ausência de reprodução automática no mobile e respeito a movimento reduzido. O host do navegador foi consultado novamente e continua indisponível; não houve inspeção visual real da nova interação no navegador.
 
@@ -17,7 +19,7 @@ Executada em 09/11/2026, no Windows com Node.js 24.18.0. Nenhuma compra, envio d
 | `node --check` | JavaScript de página e servidor sem erro de sintaxe |
 | Servidor HTTP local | Página, CSS, JS, logo, produtos, caixas e compartilhamento retornaram 200, com Content-Type correto |
 | Imagens | Todas locais, com alternativas WebP e `srcset`; originais oficiais inspecionados visualmente; proporções conferidas com Pillow |
-| CTAs | Nove links de pedido no HTML, todos gerados a partir do canal central; mensagens com nome e versão; `target` com `noopener noreferrer` |
+| CTAs e contatos | Doze links para o canal de pedidos, gerados a partir da configuração central; telefone oficial visível; Instagram, Linktree e Facebook oficiais; `target` com `noopener noreferrer` |
 | Seleção do presente | Handler real de `app.js` executado em contexto DOM simulado: Defumado → Clássico alterna apenas a camada mascarada da garrafa, preserva os arquivos da base e atualiza descrição, texto e destino do botão. Inclui seleções rápidas e falha de carregamento. É uma verificação de lógica, não um teste de navegador |
 | Teclado: estrutura | Links nativos, botões de opção nativos, FAQ `details/summary`, link de salto e estilos de foco. Inspeção do código; sequência de Tab não exercitada no navegador |
 | Movimento | Redução de movimento prevista por CSS |
@@ -60,12 +62,12 @@ Com `npm.cmd run dev`, abra http://127.0.0.1:4173 e verifique:
 1. Em desktop de 1440 px e tablet de 768 px: títulos sem sobreposição, garrafas completas e cards alinhados.
 2. Em 320, 375 e 390 px: ausência de rolagem horizontal, CTA visível na abertura, botões fáceis de tocar, barra inferior sem esconder conteúdo, rótulos legíveis dentro do espaço disponível.
 3. Tecla Tab e Shift+Tab: link de salto, navegação, CTAs, seleção da caixa, FAQ e rodapé com foco visível. Use setas nos botões de opção e Enter/Espaço no FAQ.
-4. Selecione Defumado e depois Clássico na caixa: somente a garrafa deve se alterar, com fade suave e mesmo eixo de inclinação; cenário, texto da arte e caixa permanecem imóveis. Confira também mensagem e link de pedido.
+4. Selecione Defumado e depois Clássico na caixa: a silhueta, a tampa e a base devem permanecer idênticas, com troca do rótulo em 0,9 segundo; cenário, texto da arte e caixa permanecem imóveis. Confira também mensagem e link de pedido.
 5. No mobile, toque nos cinco marcadores do rótulo: cada um deve ampliar o detalhe correspondente e atualizar o cartão abaixo. Use “Ver o rótulo sem zoom” para restaurar a visão geral. A navegação por Tab e setas também deve funcionar, sem reprodução automática.
-5. Abra um botão de cada produto e confira destinatário e mensagem no WhatsApp. Não é necessário enviar mensagem para verificar.
-6. Recarregue em rede móvel: imagens locais devem carregar, com a principal antes das imagens inferiores.
-7. Após configurar `siteUrl` e publicar, valide prévia de compartilhamento no domínio real; os metadados locais usam caminhos relativos enquanto não há domínio.
+6. Abra um botão de cada produto e confira destinatário e mensagem no WhatsApp. Não é necessário enviar mensagem para verificar.
+7. Recarregue em rede móvel: imagens locais devem carregar, com a principal antes das imagens inferiores.
+8. Depois de enviar as alterações ao GitHub, valide a prévia de compartilhamento na URL pública; canonical e imagem social já usam o endereço confirmado do GitHub Pages.
 
 ## Pendências de publicação
 
-Domínio definitivo, inspeção visual real e confirmação da marca sobre informações comerciais e fidelidade física das artes. O relatório de análise lista os materiais necessários para concluir a evolução do perfil.
+Envio das alterações ao GitHub, inspeção visual real e confirmação da marca sobre informações comerciais e fidelidade física das artes. O endereço do GitHub Pages e os contatos oficiais já foram verificados. O relatório de análise lista os materiais necessários para concluir a evolução do perfil.

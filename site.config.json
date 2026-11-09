@@ -1,6 +1,7 @@
 {
   "name": "Negroni Marson",
   "orderBaseUrl": "https://wa.me/5519999060077",
+  "whatsappDisplay": "+55 (19) 99906-0077",
   "orderMessages": {
     "geral": "Olá! Quero pedir um Negroni Marson.",
     "classico": "Olá! Quero pedir o Negroni Marson Clássico 500 ml.",
@@ -10,5 +11,6 @@
   },
   "instagramUrl": "https://www.instagram.com/negronimarson/",
   "catalogUrl": "https://linktr.ee/negronimarson",
-  "siteUrl": ""
+  "facebookUrl": "https://www.facebook.com/share/19dqqGa7ie/?mibextid=wwXIfr",
+  "siteUrl": "https://mtstavares.github.io/negroni-marson"
 }

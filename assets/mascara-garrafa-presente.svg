@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
-  <!-- Bottle silhouette in the official 1000 × 1000 Defumado presentation.
-       The surrounding box, typography and scenery remain on the static base. -->
-  <path fill="white" stroke="white" stroke-width="2" stroke-linejoin="round" d="M824 338 C838 333 870 339 887 348 L894 354 L889 383 Q885 393 881 397 L878 420 Q873 430 868 445 L865 459 Q904 472 913 513 Q921 537 915 567 L883 775 Q881 805 876 814 Q873 824 857 820 L679 792 Q664 790 666 773 L708 553 Q716 508 742 487 Q757 474 790 463 Q800 457 802 444 L809 410 L812 394 Q808 389 811 377 L815 350 Q816 342 824 338 Z"/>
+  <!-- The fixed Clássico label surface, in the 1000 × 1000 base artwork.
+       Cap, glass, base and scenery stay identical for both product choices. -->
+  <path fill="white" d="M746 489 C785 466 843 481 892 516 L869 687 C816 665 757 655 715 659 Z"/>
 </svg>

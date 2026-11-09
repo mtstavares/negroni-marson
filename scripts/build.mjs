@@ -1,6 +1,7 @@
 import {readFile,writeFile,mkdir,cp,readdir,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 
 export const root = fileURLToPath(new URL('../',import.meta.url));
 export async function build(){
@@ -16,16 +17,28 @@ export async function build(){
     if(['wa.me','api.whatsapp.com'].includes(url.hostname)) url.searchParams.set('text',config.orderMessages[key]);
     return url.href;
   };
-  let html=await readFile(path.join(root,'index.html'),'utf8');
+  let html=await readFile(path.join(root,'src/index.template.html'),'utf8');
   html=html.replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
     .replaceAll('{{instagramUrl}}',escape(config.instagramUrl))
     .replaceAll('{{catalogUrl}}',escape(config.catalogUrl))
+    .replaceAll('{{facebookUrl}}',escape(config.facebookUrl))
+    .replaceAll('{{whatsappDisplay}}',escape(config.whatsappDisplay))
     .replaceAll('{{socialImage}}',escape(siteUrl?`${siteUrl}/assets/social.jpg`:'assets/social.jpg'))
     .replaceAll('{{canonical}}',siteUrl?`<link rel="canonical" href="${escape(siteUrl)}/"><meta property="og:url" content="${escape(siteUrl)}/">`:'');
   if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
+  // Give returning GitHub Pages visitors the matching CSS/JS after each edit.
+  for(const file of ['styles.css','app.js','label-story.js']) {
+    const hash=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex').slice(0,10);
+    html=html.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
+  }
   const out=path.join(root,'dist');
   await mkdir(out,{recursive:true});
   await writeFile(path.join(out,'index.html'),html);
+  // GitHub Pages can serve the repository root directly. Keep that entry point
+  // valid static HTML, including working contacts before any JavaScript runs.
+  const entry=path.join(root,'index.html');
+  if(await readFile(entry,'utf8').catch(()=>'') !== html) await writeFile(entry,html);
+  await writeFile(path.join(out,'.nojekyll'),'');
   for(const file of ['styles.css','app.js','label-story.js','assets']) await cp(path.join(root,file),path.join(out,file),{
     recursive:true,
     // Keep supplied Instagram captures in the workspace; ship optimized assets.

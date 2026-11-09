@@ -47,7 +47,7 @@ Preto/dourado e marfim/preto foram mantidos com contraste forte. Bronze substitu
 
 ## Imagens e fotografia futura
 
-As artes atuais vêm do Linktree oficial e das capturas fornecidas pelo solicitante. A garrafa do Clássico abre a página; as versões são apresentadas lado a lado em desktop e em sequência no celular. Na seleção da caixa, o cenário completo do Clássico permanece fixo e somente a garrafa alterna, por sobreposição mascarada do Defumado, com fade de 1,4 segundo e alinhamento pela tampa e pelos cantos da base. Caixa, fundo e tipografia da arte não são animados. Não há imagens de banco nem imagens de produto inventadas.
+As artes atuais vêm do Linktree oficial e das capturas fornecidas pelo solicitante. A garrafa do Clássico abre a página; as versões são apresentadas lado a lado em desktop e em sequência no celular. Na caixa presente, as duas escolhas compartilham exatamente a mesma silhueta, tampa, vidro e base. Somente o rótulo é substituído pela arte do Defumado, ajustada à perspectiva do Clássico, com fade de 0,9 segundo. Isso preserva a orientação da garrafa para cima/esquerda. Caixa, fundo e demais textos da arte permanecem estáticos. Não há imagens de banco nem imagens de produto inventadas.
 
 Para substituir as artes por fotografias reais, produzir: garrafa frontal completa com rótulo legível; detalhe de tampa e acabamento; Clássico e Defumado no mesmo enquadramento; caixa aberta e fechada com cada versão; cena de serviço em copo baixo com gelo. Fundo escuro, luz lateral quente e reflexos controlados. Manter tons reais do líquido e não simular acessórios incluídos no pedido. Preferir imagens de presente sem elementos sazonais para uso contínuo.
 
@@ -63,4 +63,4 @@ Para substituir as artes por fotografias reais, produzir: garrafa frontal comple
 
 ## Arquivos de aplicação
 
-Tokens e componentes em `styles.css`; conteúdo em `index.html`; seleção de presente em `app.js`. Para mudar a identidade, ajuste primeiro os tokens de `:root` e revalide contraste. A assinatura e as artes oficiais ficam em `assets/`; os PNGs originais, em `docs/referencias/`.
+Tokens e componentes em `styles.css`; conteúdo em `src/index.template.html`; seleção de presente e ajuste de perspectiva em `app.js`. O build gera o `index.html` da raiz para publicação direta. Para mudar a identidade, ajuste primeiro os tokens de `:root` e revalide contraste. A assinatura e as artes oficiais ficam em `assets/`; os PNGs originais, em `docs/referencias/`.

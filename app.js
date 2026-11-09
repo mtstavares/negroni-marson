@@ -5,6 +5,27 @@ const giftOrder = document.querySelector('#gift-order');
 const giftStatus = document.querySelector('#gift-status');
 let giftSelection = 0;
 
+// Project the Defumado print onto the exact face of the fixed Clássico bottle.
+// Four label corners were matched in the two official 1000 × 1000 artworks.
+// Coordinates are normalized; the CSS perspective is recalculated on resize.
+const giftLabelProjection = [
+  1.3411883216784661, .5056690761664169, -.22667934741333864,
+  .13046349877160582, 1.594066711096922, -.2639032395155753,
+  .07147809158092701, .6278718792657165, 1
+];
+function registerGiftPerspective(width = giftScene.clientWidth) {
+  if (!width) return;
+  const [a,b,c,d,e,f,g,h,i] = giftLabelProjection;
+  const matrix = [a,d,0,g/width,b,e,0,h/width,0,0,1,0,c*width,f*width,0,i];
+  giftBottleOverlay.style.transform = `matrix3d(${matrix.join(',')})`;
+}
+registerGiftPerspective();
+if (typeof ResizeObserver === 'function') {
+  new ResizeObserver(([entry]) => registerGiftPerspective(entry.contentRect.width)).observe(giftScene);
+} else if (typeof window !== 'undefined') {
+  window.addEventListener('resize', () => registerGiftPerspective());
+}
+
 document.querySelectorAll('input[name="gift"]').forEach((input) => {
   input.addEventListener('change', async () => {
     const selection = ++giftSelection;

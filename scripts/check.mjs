@@ -6,13 +6,22 @@ import {build,root} from './build.mjs';
 import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
 
 const {html,config,out}=await build();
+assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
+assert(!html.includes('{{'),'GitHub Pages não deve receber marcadores de template');
+assert(html.includes(config.whatsappDisplay),'O telefone oficial precisa estar visível');
+assert(html.includes(config.facebookUrl),'Link oficial do Facebook ausente');
+if(config.siteUrl) {
+  const publicUrl=config.siteUrl.replace(/\/$/,'');
+  assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)?.[1],`${publicUrl}/`);
+  assert.equal(html.match(/<meta property="og:image" content="([^"]+)"/)?.[1],`${publicUrl}/assets/social.jpg`);
+}
 assert(!(await readdir(path.join(out,'assets'))).some(name=>name.startsWith('WhatsApp Image ')),'Capturas originais não devem entrar no build');
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'IDs duplicados');
 assert.equal((html.match(/<h1\b/g)||[]).length,1,'A página deve ter um H1');
 assert.match(html,/<html lang="pt-BR">/);
 for(const m of html.matchAll(/href="#([^"]+)"/g)) assert(ids.includes(m[1]),`Âncora ausente: ${m[1]}`);
-for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js)[^"]*)"/g)) await access(path.join(out,m[1]));
+for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
 for(const m of html.matchAll(/srcset="([^"]+)"/g)) for(const candidate of m[1].split(',')) await access(path.join(out,candidate.trim().split(' ')[0]));
 for(const m of html.matchAll(/<img\b[^>]*>/g)){
   assert(/alt="[^"]+"/.test(m[0]) || /alt=""[^>]*aria-hidden="true"/.test(m[0]),'Imagem sem descrição ou identificação decorativa');
@@ -39,10 +48,26 @@ const background=elements.get('#gift-image');
 background.src='assets/presente-classico-1000.webp';
 background.srcset='assets/presente-classico-640.webp 640w, assets/presente-classico-1000.webp 1000w';
 elements.get('#gift-scene').dataset.version='classico';
+elements.get('#gift-scene').clientWidth=1000;
+elements.get('#gift-bottle-overlay').style={};
 elements.get('#gift-bottle-overlay').decode=async()=>{};
 const inputs=['classico','defumado'].map(value=>({value,addEventListener(event,handler){this.change=handler;}}));
 const document={querySelector:id=>elements.get(id),querySelectorAll:()=>inputs,createTextNode:textContent=>({textContent}),createElement:()=>({setAttribute(){}})};
-vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),{document,Date});
+const giftContext={document,Date};
+vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),giftContext);
+// The printed label must follow the same four corners at every viewport size.
+const labelCorners=[[[741,530],[747,489]],[[898,549],[891,517]],[[699,730],[716,657]],[[879,755],[868,686]]];
+for(const width of [320,640,1000]) {
+  giftContext.registerGiftPerspective(width);
+  const matrix=elements.get('#gift-bottle-overlay').style.transform.slice(9,-1).split(',').map(Number);
+  for(const [[x,y],[u,v]] of labelCorners) {
+    const sx=x*width/1000,sy=y*width/1000;
+    const denominator=matrix[3]*sx+matrix[7]*sy+matrix[15];
+    const actualX=(matrix[0]*sx+matrix[4]*sy+matrix[12])/denominator;
+    const actualY=(matrix[1]*sx+matrix[5]*sy+matrix[13])/denominator;
+    assert(Math.hypot(actualX-u*width/1000,actualY-v*width/1000)<.01,'Perspectiva desalinhada');
+  }
+}
 for(const input of [inputs[1],inputs[0]]){
   await input.change();
   assert.equal(background.src,'assets/presente-classico-1000.webp','O cenário deve permanecer estático');
