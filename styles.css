@@ -996,10 +996,15 @@ h1 em {
   }
   .hero-specs {
     margin-top:27px;
-    gap:0
+    gap:0;
+    justify-content:center;
+    text-align:center
   }
   .hero-specs>span {
     padding-inline:20px
+  }
+  .hero-specs>span:last-child {
+    padding-right:0
   }
   .hero-specs strong {
     font-size:12px
