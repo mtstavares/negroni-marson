@@ -617,7 +617,7 @@ h1 em {
 .gift-status {
   font-size:10px;
   color:#625b4f;
-  margin-top:12px
+  margin-top:8px
 }
 .gift-section a:focus-visible {
   outline-color:#76532c
@@ -1141,7 +1141,7 @@ h1 em {
     object-fit:contain
   }
   .gift-content {
-    padding:50px 25px;
+    padding:50px 25px 15px 25px;
     order:1
   }
   .gift-content .eyebrow {
