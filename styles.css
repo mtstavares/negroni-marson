@@ -1690,7 +1690,6 @@ h1 em {
 .ritual.is-enhanced .ritual-slide>.step-number {display:none;}
 .ritual .ritual-slide h3 {font-family:var(--serif);font-size:clamp(29px,3vw,39px);line-height:1.18;margin-bottom:16px;}
 .ritual .ritual-slide p {font-size:15px;line-height:1.85;max-width:390px;}
-.ritual-order {display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:14px;color:var(--gold);margin-top:12px;}
 .ritual-progress {height:2px;background:#4c4333;margin-top:20px;overflow:hidden;}
 .ritual-progress>span {display:block;width:100%;height:100%;background:var(--gold);transform:scaleX(var(--ritual-progress,.25));transform-origin:left;transition:transform 500ms cubic-bezier(.2,.7,.3,1);}
 .ritual-navigation {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;}
