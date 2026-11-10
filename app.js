@@ -69,7 +69,7 @@ async function selectGift(version) {
     if (selection !== giftSelection) return;
     giftScene.setAttribute('aria-busy','false');
     giftScene.dataset.version = version;
-    giftImage.alt = `Caixa presente Marson aberta e fechada, com uma garrafa do ${title} e cenário com luzes quentes`;
+    giftImage.alt = `Caixa presente Negroni Marson aberta e fechada, com uma garrafa do ${title} e cenário com luzes quentes`;
     giftStatus.textContent = `Caixa Presente + Negroni ${title}`;
 }
 document.querySelectorAll('input[name="gift"]').forEach((input) => {
