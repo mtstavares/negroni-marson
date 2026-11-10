@@ -1708,7 +1708,7 @@ h1 em {
   .ritual-content {order:2;}
   .ritual .ritual-intro>p:not(.eyebrow) {max-width:420px;}
   .ritual .ritual-steps {margin:0;}
-  .ritual.is-enhanced .ritual-steps {min-height:255px;}
+  .ritual.is-enhanced .ritual-steps {min-height:0;}
   .ritual .ritual-slide h3 {font-size:32px;}
   .ritual .ritual-slide p {max-width:none;font-size:14px;}
   .ritual-tabs {gap:6px;margin-bottom:23px;}
@@ -1717,7 +1717,6 @@ h1 em {
   .ritual-overlay>span {font-size:9px;letter-spacing:1px;}
   .ritual-overlay>p {font-size:25px;}
 }
-@media(max-width:380px) {.ritual.is-enhanced .ritual-steps {min-height:290px;}}
 @media(prefers-reduced-motion:reduce) {
   .ritual :is(.ritual-image,.ritual-highlights g,.ritual-progress>span) {transition:none;}
 }
