@@ -825,8 +825,10 @@ h1 em {
 .footer-flags {
   display:flex;
   align-items:center;
-  gap:9px;
-  margin-top:12px;
+  gap:8px;
+  min-height:30px;
+  margin-top:10px;
+  padding-inline:3px;
   line-height:0;
   opacity:.85
 }
@@ -834,15 +836,12 @@ h1 em {
   display:block;
   flex-shrink:0;
   width:auto;
-  height:14px;
+  height:17px;
   border-radius:1px;
   outline:1px solid #e2be7b20
 }
-.footer-flag-divider {
-  width:1px;
-  height:12px;
-  background:#e2be7b55
-}
+.footer-flag-it {transform:rotate(-31deg);}
+.footer-flag-br {transform:translateY(-3px) rotate(18deg);}
 .footer-main>.text-link {
   font-size:10px;
   color:#c9bb9b;
