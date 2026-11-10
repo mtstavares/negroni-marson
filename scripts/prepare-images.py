@@ -44,6 +44,10 @@ for name in ['presente-classico', 'presente-defumado']:
     with Image.open(REFERENCES / f'{name}.png') as original:
         export(name, original.convert('RGB'), [480, 640, 960, 1216], quality=90)
 
+with Image.open(ASSETS / 'presente-novo.jpeg') as original:
+    export('presente-novo', ImageOps.exif_transpose(original).convert('RGB'), [480, 640, 960, 1254], quality=92)
+    report['presente-novo']['source'] = 'assets/presente-novo.jpeg'
+
 with Image.open(REFERENCES / 'marca-original.png') as original:
     export('marca-original', original.convert('RGB'), [96, 256])
 

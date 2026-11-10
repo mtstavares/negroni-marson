@@ -507,8 +507,8 @@ h1 em {
   height:100%;
   opacity:0;
   pointer-events:none;
-  -webkit-mask-image:url('assets/mascara-garrafa-presente.svg?v=label-surface-2');
-  mask-image:url('assets/mascara-garrafa-presente.svg?v=label-surface-2');
+  -webkit-mask-image:url('assets/mascara-presente-novo.svg');
+  mask-image:url('assets/mascara-presente-novo.svg');
   -webkit-mask-size:100% 100%;
   mask-size:100% 100%;
   -webkit-mask-repeat:no-repeat;
