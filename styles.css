@@ -1685,7 +1685,7 @@ h1 em {
 .ritual-tabs button:hover {color:var(--cream);background:#e2be7b08;}
 .ritual-tabs button[aria-pressed="true"] {color:var(--gold);border-bottom:2px solid var(--gold);background:#e2be7b0b;}
 .ritual .ritual-steps {margin:0;}
-.ritual.is-enhanced .ritual-steps {min-height:275px;}
+.ritual.is-enhanced .ritual-steps {min-height:0;}
 .ritual.is-enhanced .ritual-slide {display:block;padding:0;border:0;}
 .ritual.is-enhanced .ritual-slide>.step-number {display:none;}
 .ritual .ritual-slide h3 {font-family:var(--serif);font-size:clamp(29px,3vw,39px);line-height:1.18;margin-bottom:16px;}
@@ -1708,7 +1708,6 @@ h1 em {
   .ritual-content {order:2;}
   .ritual .ritual-intro>p:not(.eyebrow) {max-width:420px;}
   .ritual .ritual-steps {margin:0;}
-  .ritual.is-enhanced .ritual-steps {min-height:0;}
   .ritual .ritual-slide h3 {font-size:32px;}
   .ritual .ritual-slide p {max-width:none;font-size:14px;}
   .ritual-tabs {gap:6px;margin-bottom:23px;}
