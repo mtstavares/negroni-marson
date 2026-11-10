@@ -4,6 +4,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import {build,root} from './build.mjs';
 import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
+import {checkRitual} from './check-ritual.mjs';
 
 const {html,config,out}=await build();
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
@@ -27,7 +28,7 @@ assert.equal(new Set(ids).size,ids.length,'IDs duplicados');
 assert.equal((html.match(/<h1\b/g)||[]).length,1,'A página deve ter um H1');
 assert.match(html,/<html lang="pt-BR">/);
 for(const m of html.matchAll(/href="#([^"]+)"/g)) assert(ids.includes(m[1]),`Âncora ausente: ${m[1]}`);
-for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
+for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js|ritual-carousel\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
 for(const m of html.matchAll(/srcset="([^"]+)"/g)) for(const candidate of m[1].split(',')) await access(path.join(out,candidate.trim().split(' ')[0]));
 for(const m of html.matchAll(/<img\b[^>]*>/g)){
   assert(/alt="[^"]+"/.test(m[0]) || /alt=""[^>]*aria-hidden="true"/.test(m[0]),'Imagem sem descrição ou identificação decorativa');
@@ -46,6 +47,7 @@ assert(!html.includes('{{'),'Placeholder não resolvido');
 assert.match(html,/name="viewport"/);
 assert.match(html,/property="og:image"/);
 assert.match(html,/name="twitter:card"/);
+checkRitual(html);
 
 // Exercise the actual gift-selection event handler without a browser dependency.
 const elements=new Map();
@@ -199,7 +201,7 @@ assert.equal(touchNodes.get('#label-reset').hidden,true);
 explorer.destroy();assert.equal(pending,undefined);
 
 // Mobile navigation must close on selection, Escape and an outside click.
-const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:4},()=>uiNode());
+const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:3},()=>uiNode());
 menu.querySelector=()=>menuSummary;menu.querySelectorAll=()=>menuLinks;
 menu.contains=target=>target===menu||target===menuSummary||menuLinks.includes(target);
 elements.set('#mobile-navigation',menu);

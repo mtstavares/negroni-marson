@@ -41,6 +41,7 @@ Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.h
 | `styles.css` | Identidade visual, espaçamentos e versões responsivas |
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
+| `ritual-carousel.js` | Carrossel manual do ritual: etapas, gestos, teclado e destaques na arte |
 | `site.config.json` | Canal de pedidos e URLs oficiais |
 | `assets/` | Imagens AVIF/WebP responsivas, favicon e imagem de compartilhamento |
 | `scripts/` | Build, servidor local, verificação e otimização de imagens |
@@ -67,7 +68,9 @@ No mobile (até 760 px), “Por trás do rótulo” funciona por toque: cinco ma
 
 As capturas do Instagram e as novas imagens oficiais adicionadas pelo solicitante permanecem em `assets/`. O script prepara somente as áreas usadas pela página, sem carregar a interface do Instagram. “Por trás do rótulo” agora usa a arte oficial, com pontos do SVG e do zoom recalibrados. Se a imagem mudar, ajuste os recortes em `scripts/prepare-images.py`, os círculos do SVG no template e os pontos do zoom em `label-story.js`. O build exclui os originais com prefixo `WhatsApp Image ` da cópia para `dist/`.
 
-No mobile, o menu do cabeçalho dá acesso às quatro seções e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
+No mobile, o menu do cabeçalho dá acesso às três seções principais e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
+
+O “Ritual Marson” usa uma única arte original em quatro etapas: copo, gelo, laranja e apreciação. Os botões e as setas sincronizam o texto externo, a legenda sobreposta, o contador e os destaques SVG; no celular também é possível deslizar horizontalmente. Não há avanço automático. As transições têm 500–600 ms e respeitam movimento reduzido. Os textos ficam nos quatro itens de `src/index.template.html`, usados também pelo JavaScript. Sem JavaScript, a arte e as quatro instruções continuam visíveis. Os pontos do destaque são definidos no SVG e o zoom, nos seletores `data-focus` do CSS. `npm.cmd run check` verifica as interações e o fallback.
 
 Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem entrar após confirmação. As informações técnicas atuais foram lidas nos rótulos das artes oficiais, conforme o relatório de análise.
 
