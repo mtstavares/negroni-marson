@@ -822,26 +822,22 @@ h1 em {
   line-height:1.4;
   color:#bfb5a1
 }
+.footer-main>.footer-origin {text-align:center;}
 .footer-flags {
   display:flex;
   align-items:center;
-  gap:8px;
-  min-height:30px;
+  justify-content:center;
   margin-top:10px;
-  padding-inline:3px;
-  line-height:0;
-  opacity:.85
+  line-height:0
 }
 .footer-flags svg {
   display:block;
   flex-shrink:0;
-  width:auto;
-  height:17px;
-  border-radius:1px;
-  outline:1px solid #e2be7b20
+  width:74px;
+  height:auto;
+  overflow:visible
 }
-.footer-flag-it {transform:rotate(-31deg);}
-.footer-flag-br {transform:translateY(-3px) rotate(18deg);}
+.footer-flag-cloth {opacity:.9;}
 .footer-main>.text-link {
   font-size:10px;
   color:#c9bb9b;
