@@ -73,6 +73,17 @@ Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem ent
 
 ## Publicar
 
+### Fluxo com aprovação
+
+- **`teste`**: desenvolvimento, testes locais e envio das melhorias ao GitHub. Commits nessa branch não alteram o site oficial.
+- **`main`**: produção. O Pages continua configurado para servir sua raiz.
+
+Trabalhe na branch `teste` (`git switch teste`), rode a prévia com `npm.cmd run dev` e confira desktop e celular. Antes de entregar uma versão, execute `npm.cmd run check` e `npm.cmd run build`, revise o diff e faça commit/push para `teste`, incluindo o HTML regenerado quando mudar.
+
+Para publicar, abra um Pull Request de `teste` para `main`, descreva as alterações e a validação e aguarde aprovação explícita do usuário para aquela versão. Só então faça o merge. O Pages publica automaticamente após a integração em `main`; confira o resultado em Actions. Não habilite merge automático. Depois, sincronize `teste` com `main` para o próximo ciclo.
+
+A proteção da `main` exige Pull Request inclusive para administradores, bloqueia force push e exclusão e exige resolver conversas. Não há exigência de um revisor de outra conta: a aprovação de produção é feita pelo usuário no chat. Os testes são executados localmente; esta configuração não adiciona um workflow de testes automáticos. As instruções para os agentes estão em [AGENTS.md](AGENTS.md).
+
 Para configurar ou conferir **www.negronimarson.com.br** no GitHub Pages, siga [o roteiro de domínio próprio](docs/DOMINIO-PROPRIO.md). O arquivo `CNAME` e `siteUrl` já usam esse endereço. O build preserva em `dist/` o arquivo `CNAME` da raiz, quando existir.
 
 Para **GitHub Pages publicando a raiz da branch**: execute `npm.cmd run check` e `npm.cmd run build`, depois envie as alterações ao GitHub, incluindo `index.html`, `.nojekyll`, `assets/`, os scripts da página e os demais arquivos fonte modificados. O `index.html` da raiz contém HTML estático completo, sem marcadores visíveis, e funciona com a configuração de publicação já utilizada. O build inclui uma versão nos URLs de CSS e JavaScript para evitar que visitantes continuem usando arquivos antigos em cache. Não selecione `src/` como pasta de publicação.
