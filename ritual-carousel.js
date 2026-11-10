@@ -1,5 +1,5 @@
 // One original artwork, four manual steps. Text remains in HTML for the
-// no-JavaScript fallback and is shared by the overlay and announcements.
+// no-JavaScript fallback and is shared by the overlay and instruction panel.
 export function mountRitualCarousel(section, {view = globalThis.window} = {}) {
   const slides = [...section.querySelectorAll('[data-ritual-slide]')];
   const tabs = [...section.querySelectorAll('[data-ritual-step]')];
@@ -9,7 +9,7 @@ export function mountRitualCarousel(section, {view = globalThis.window} = {}) {
   const caption = section.querySelector('[data-ritual-caption]');
   const kicker = section.querySelector('[data-ritual-kicker]');
   const count = section.querySelector('[data-ritual-count]');
-  const announcement = section.querySelector('[data-ritual-announcement]');
+  const steps = section.querySelector('.ritual-steps');
   const previous = section.querySelector('[data-ritual-prev]');
   const next = section.querySelector('[data-ritual-next]');
   const highlights = [...section.querySelectorAll('[data-ritual-highlight]')];
@@ -36,6 +36,8 @@ export function mountRitualCarousel(section, {view = globalThis.window} = {}) {
     cancelAnimations();
     current = index;
     const slide = slides[index];
+    steps.setAttribute('aria-live', announce ? 'polite' : 'off');
+    steps.setAttribute('aria-busy', 'true');
     slides.forEach((item, position) => { item.hidden = position !== index; });
     tabs.forEach((tab, position) => tab.setAttribute('aria-pressed', String(position === index)));
     highlights.forEach((part, position) => part.classList.toggle('is-active', position === index));
@@ -48,8 +50,8 @@ export function mountRitualCarousel(section, {view = globalThis.window} = {}) {
     const last = index === slides.length - 1;
     next.setAttribute('aria-label', last ? 'Recomeçar o ritual' : 'Ver próxima etapa');
     next.textContent = last ? 'Recomeçar ↺' : 'Próxima →';
+    steps.setAttribute('aria-busy', 'false');
     if (announce) {
-      announcement.textContent = `Etapa ${index + 1} de ${slides.length}. ${slide.querySelector('h3').textContent} ${slide.querySelector('p').textContent}`;
       if (!motion.matches) {
         for (const target of [slide, overlay]) {
           if (target.animate) animations.push(target.animate(
@@ -95,6 +97,7 @@ export function mountRitualCarousel(section, {view = globalThis.window} = {}) {
   return {select, get index() { return current; }, destroy() {
     cleanups.forEach(cleanup => cleanup());
     cancelAnimations();
+    steps.setAttribute('aria-live', 'off');
     slides.forEach(slide => { slide.hidden = false; });
     controls.forEach(control => { control.hidden = true; });
     section.classList.remove('is-enhanced');

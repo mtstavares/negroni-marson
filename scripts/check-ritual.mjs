@@ -8,6 +8,7 @@ export function checkRitual(html) {
   const entries=[...markup.matchAll(/<li class="ritual-slide"[^>]*data-focus="([^"]+)" data-name="([^"]+)" data-caption="([^"]+)"[^>]*>[\s\S]*?<h3>([^<]+)<\/h3><p>([^<]+)<\/p>/g)];
   assert.equal(entries.length,4,'As quatro instruções precisam estar no HTML para funcionar sem JavaScript');
   assert(!/<li class="ritual-slide"[^>]*\shidden/.test(markup),'O fallback precisa manter as instruções legíveis');
+  assert(!markup.includes('data-ritual-announcement'),'As instruções não devem ser duplicadas abaixo dos controles');
   function node(extra={}) {
     const events=new Map(),classes=new Set();
     const n={hidden:false,dataset:{},attrs:{},textContent:'',animationCount:0,
@@ -22,7 +23,7 @@ export function checkRitual(html) {
   }
   const slides=entries.map(([,focus,name,caption,title,description])=>node({dataset:{focus,name,caption},querySelector:selector=>({textContent:selector==='h3'?title:description})}));
   const tabs=slides.map(()=>node()),highlights=slides.map(()=>node());
-  const controls=new Map(['[data-ritual-visual]','.ritual-overlay','[data-ritual-caption]','[data-ritual-kicker]','[data-ritual-count]','[data-ritual-announcement]','[data-ritual-prev]','[data-ritual-next]','.ritual-tabs','.ritual-controls','.ritual-swipe-hint'].map(key=>[key,node()]));
+  const controls=new Map(['[data-ritual-visual]','.ritual-overlay','[data-ritual-caption]','[data-ritual-kicker]','[data-ritual-count]','.ritual-steps','[data-ritual-prev]','[data-ritual-next]','.ritual-tabs','.ritual-controls','.ritual-swipe-hint'].map(key=>[key,node()]));
   const media=node({matches:false});
   const section=node({querySelector:selector=>controls.get(selector),querySelectorAll:selector=>{
     if(selector==='[data-ritual-slide]') return slides;
@@ -33,7 +34,7 @@ export function checkRitual(html) {
   const carousel=mountRitualCarousel(section,{view:{matchMedia:()=>media}});
   assert.equal(carousel.index,0);
   assert.deepEqual(slides.map(slide=>slide.hidden),[false,true,true,true]);
-  assert.equal(controls.get('[data-ritual-announcement]').textContent,'','A inicialização não deve interromper leitores de tela');
+  assert.equal(controls.get('.ritual-steps').attrs['aria-live'],'off','A inicialização não deve interromper leitores de tela');
   tabs[2].fire('click');
   assert.equal(carousel.index,2);
   assert.equal(controls.get('[data-ritual-visual]').dataset.focus,'laranja');
@@ -65,7 +66,8 @@ export function checkRitual(html) {
   const animations=slides.reduce((sum,slide)=>sum+slide.animationCount,0);
   tabs[1].fire('click');
   assert.equal(slides.reduce((sum,slide)=>sum+slide.animationCount,0),animations,'Movimento reduzido deve desativar animações');
-  assert(controls.get('[data-ritual-announcement]').textContent.includes('Etapa 2 de 4'));
+  assert.equal(controls.get('.ritual-steps').attrs['aria-live'],'polite','O próprio bloco de instruções deve anunciar as trocas');
+  assert.equal(controls.get('.ritual-steps').attrs['aria-busy'],'false');
   carousel.destroy();
   assert(slides.every(slide=>!slide.hidden));
   assert(!section.classList.contains('is-enhanced'));
