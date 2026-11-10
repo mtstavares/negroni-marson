@@ -34,3 +34,11 @@ O script `scripts/prepare-images.py` reproduz as variantes a partir dos originai
 - `git diff --check` sem erros. A alteração de texto feita anteriormente pelo solicitante no GitHub foi mantida.
 - A conferência visual real em desktop e mobile permanece pendente: o controle de navegador informou que o host de acesso está indisponível. As artes originais e o novo recorte foram inspecionados diretamente como imagens; isso não substitui a inspeção do layout no navegador.
 - A publicação usa a raiz da branch `main`, incluindo o HTML regenerado, as variantes otimizadas e os arquivos fonte. Os originais permanecem disponíveis para reproduzir a preparação.
+
+## Nova apresentação da caixa — 10/11/2026
+
+`assets/presente-novo.jpeg` (1254 × 1254 px), fornecida pelo solicitante, substitui a imagem base da seção “Para marcar a ocasião”. A arte inteira foi preservada, com variantes AVIF/WebP de 480, 640, 960 e 1254 px; o AVIF nativo tem 186.408 bytes. Os novos nomes evitam reutilizar o cache da composição anterior.
+
+A seleção continua alterando somente a superfície impressa do rótulo, mantendo caixa, tampa, vidro, fundo e angulação fixos. A projeção do Defumado e a máscara SVG foram recalibradas para quatro pontos na nova arte: (840, 638), (1025, 653), (810, 851) e (1005, 869). O fade permanece em 0,9 segundo. A imagem base é sempre `presente-novo-*`; a arte anterior do Defumado é usada apenas como fonte da impressão projetada.
+
+Uma composição matemática da projeção foi inspecionada em `tmp/` para conferir o encaixe do rótulo. Esse arquivo é apenas uma prévia de verificação e não é utilizado pela página. As verificações automatizadas conferem os quatro cantos em larguras de 320, 640 e 1000 px, além da imagem estática e das mensagens de pedido.

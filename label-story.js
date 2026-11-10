@@ -69,7 +69,7 @@ export function mountLabelExplorer(section, {view = globalThis.window, page = gl
       cleanups.push(() => target.removeEventListener(event, callback));
     }
     const captions = [
-      'As montanhas · A paisagem que inspira a Marson.',
+      'As montanhas · A paisagem que inspira.',
       'O pôr do sol · Um convite para desacelerar.',
       'O Cristo · Um símbolo da nossa Amparo.',
       'O negroni · Equilíbrio, sabor e bons momentos.',

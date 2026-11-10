@@ -9,12 +9,12 @@ let giftSelection = 0;
 let giftSelectedVersion = giftScene.dataset.version || 'classico';
 
 // Project the Defumado print onto the exact face of the fixed Clássico bottle.
-// Four label corners were matched in the two official 1000 × 1000 artworks.
+// Match the Defumado print to the label in presente-novo.jpeg (1254 × 1254).
 // Coordinates are normalized; the CSS perspective is recalculated on resize.
 const giftLabelProjection = [
-  1.3411883216784661, .5056690761664169, -.22667934741333864,
-  .13046349877160582, 1.594066711096922, -.2639032395155753,
-  .07147809158092701, .6278718792657165, 1
+  1.1617295826137124, .45393367954447345, -.25275950777949996,
+  -.06142474473464276, 1.4429064801546676, -.07464193380605516,
+  -.034839598979919686, .5523673219030419, 1
 ];
 function registerGiftPerspective(width = giftScene.clientWidth) {
   if (!width) return;
@@ -69,7 +69,7 @@ async function selectGift(version) {
     if (selection !== giftSelection) return;
     giftScene.setAttribute('aria-busy','false');
     giftScene.dataset.version = version;
-    giftImage.alt = `Caixa presente Marson aberta e fechada, com uma garrafa do ${title} e cenário com luzes quentes`;
+    giftImage.alt = `Caixa presente Negroni Marson aberta e fechada, com uma garrafa do ${title} e cenário com luzes quentes`;
     giftStatus.textContent = `Caixa Presente + Negroni ${title}`;
 }
 document.querySelectorAll('input[name="gift"]').forEach((input) => {

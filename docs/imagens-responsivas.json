@@ -217,6 +217,61 @@
       }
     ]
   },
+  "presente-novo": {
+    "sourceWidth": 1254,
+    "sourceHeight": 1254,
+    "files": [
+      {
+        "path": "assets/presente-novo-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 73628
+      },
+      {
+        "path": "assets/presente-novo-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 41288
+      },
+      {
+        "path": "assets/presente-novo-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 115936
+      },
+      {
+        "path": "assets/presente-novo-640.avif",
+        "width": 640,
+        "height": 640,
+        "bytes": 64075
+      },
+      {
+        "path": "assets/presente-novo-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 215234
+      },
+      {
+        "path": "assets/presente-novo-960.avif",
+        "width": 960,
+        "height": 960,
+        "bytes": 122026
+      },
+      {
+        "path": "assets/presente-novo-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 319176
+      },
+      {
+        "path": "assets/presente-novo-1254.avif",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 186408
+      }
+    ],
+    "source": "assets/presente-novo.jpeg"
+  },
   "marca-original": {
     "sourceWidth": 1254,
     "sourceHeight": 1254,

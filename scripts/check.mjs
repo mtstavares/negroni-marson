@@ -4,6 +4,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import {build,root} from './build.mjs';
 import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
+import {checkRitual} from './check-ritual.mjs';
 
 const {html,config,out}=await build();
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
@@ -27,7 +28,7 @@ assert.equal(new Set(ids).size,ids.length,'IDs duplicados');
 assert.equal((html.match(/<h1\b/g)||[]).length,1,'A página deve ter um H1');
 assert.match(html,/<html lang="pt-BR">/);
 for(const m of html.matchAll(/href="#([^"]+)"/g)) assert(ids.includes(m[1]),`Âncora ausente: ${m[1]}`);
-for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
+for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js|ritual-carousel\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
 for(const m of html.matchAll(/srcset="([^"]+)"/g)) for(const candidate of m[1].split(',')) await access(path.join(out,candidate.trim().split(' ')[0]));
 for(const m of html.matchAll(/<img\b[^>]*>/g)){
   assert(/alt="[^"]+"/.test(m[0]) || /alt=""[^>]*aria-hidden="true"/.test(m[0]),'Imagem sem descrição ou identificação decorativa');
@@ -46,13 +47,14 @@ assert(!html.includes('{{'),'Placeholder não resolvido');
 assert.match(html,/name="viewport"/);
 assert.match(html,/property="og:image"/);
 assert.match(html,/name="twitter:card"/);
+checkRitual(html);
 
 // Exercise the actual gift-selection event handler without a browser dependency.
 const elements=new Map();
 for(const id of ['#gift-image','#gift-order','#gift-status','#year','#gift-scene','#gift-bottle-overlay','#gift-bottle-avif','#gift-image-retry']) elements.set(id,{dataset:{classico:'https://wa.me/5519999060077?text=classico',defumado:'https://wa.me/5519999060077?text=defumado'},attrs:{},setAttribute(name,value){this.attrs[name]=value;},removeAttribute(name){delete this[name];},addEventListener(name,callback){this[name]=callback;},replaceChildren(node){this.label=node.textContent;},append(){}});
 const background=elements.get('#gift-image');
-background.src='assets/presente-classico-960.webp';
-background.srcset='assets/presente-classico-640.webp 640w, assets/presente-classico-1216.webp 1216w';
+background.src='assets/presente-novo-960.webp';
+background.srcset='assets/presente-novo-640.webp 640w, assets/presente-novo-1254.webp 1254w';
 elements.get('#gift-scene').dataset.version='classico';
 elements.get('#gift-scene').clientWidth=1000;
 elements.get('#gift-bottle-overlay').style={};
@@ -67,7 +69,7 @@ vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),giftContext);
 assert.equal(elements.get('#gift-bottle-overlay').src,undefined,'A imagem opcional deve aguardar a escolha do visitante');
 assert.equal(elements.get('#gift-bottle-avif').media,'not all');
 // The printed label must follow the same four corners at every viewport size.
-const labelCorners=[[[741,530],[747,489]],[[898,549],[891,517]],[[699,730],[716,657]],[[879,755],[868,686]]];
+const labelCorners=[[[741,530],[840*1000/1254,638*1000/1254]],[[898,549],[1025*1000/1254,653*1000/1254]],[[699,730],[810*1000/1254,851*1000/1254]],[[879,755],[1005*1000/1254,869*1000/1254]]];
 for(const width of [320,640,1000]) {
   giftContext.registerGiftPerspective(width);
   const matrix=elements.get('#gift-bottle-overlay').style.transform.slice(9,-1).split(',').map(Number);
@@ -81,8 +83,8 @@ for(const width of [320,640,1000]) {
 }
 for(const input of [inputs[1],inputs[0]]){
   await input.change();
-  assert.equal(background.src,'assets/presente-classico-960.webp','O cenário deve permanecer estático');
-  assert.equal(background.srcset,'assets/presente-classico-640.webp 640w, assets/presente-classico-1216.webp 1216w');
+  assert.equal(background.src,'assets/presente-novo-960.webp','O cenário deve permanecer estático');
+  assert.equal(background.srcset,'assets/presente-novo-640.webp 640w, assets/presente-novo-1254.webp 1254w');
   assert.equal(elements.get('#gift-scene').dataset.version,input.value);
   assert.equal(elements.get('#gift-order').href,elements.get('#gift-order').dataset[input.value]);
   assert(elements.get('#gift-image').alt.includes(input.value==='classico'?'Clássico':'Defumado'));
@@ -112,7 +114,7 @@ await giftContext.syncGiftSelection();
 assert.equal(elements.get('#gift-scene').dataset.version,'classico','Restaurar a opção marcada pelo navegador');
 assert.equal(elements.get('#gift-order').href,elements.get('#gift-order').dataset.classico);
 elements.delete('input[name="gift"]:checked');
-await access(path.join(out,'assets/mascara-garrafa-presente.svg'));
+await access(path.join(out,'assets/mascara-presente-novo.svg'));
 
 // Automatic label exploration must stop offscreen, when paused, on a hidden
 // page and for reduced-motion users. A manual selection pauses the sequence.
@@ -199,7 +201,7 @@ assert.equal(touchNodes.get('#label-reset').hidden,true);
 explorer.destroy();assert.equal(pending,undefined);
 
 // Mobile navigation must close on selection, Escape and an outside click.
-const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:4},()=>uiNode());
+const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:3},()=>uiNode());
 menu.querySelector=()=>menuSummary;menu.querySelectorAll=()=>menuLinks;
 menu.contains=target=>target===menu||target===menuSummary||menuLinks.includes(target);
 elements.set('#mobile-navigation',menu);
@@ -214,7 +216,7 @@ documentEvents.get('keydown')({key:'Escape',preventDefault(){escapePrevented=tru
 assert.equal(menu.open,false);assert(menuSummary.focused);assert(escapePrevented);
 
 assert.match(html,/<link rel="preload"[^>]+type="image\/avif"/);
-for(const name of ['classico-oficial-1024.avif','defumado-oficial-1024.avif','presente-classico-1216.avif','presente-defumado-1216.avif','rotulo-oficial-detalhe-460.avif','rotulo-oficial-completo-900.webp']) await access(path.join(out,'assets',name));
+for(const name of ['classico-oficial-1024.avif','defumado-oficial-1024.avif','presente-novo-1254.avif','presente-defumado-1216.avif','rotulo-oficial-detalhe-460.avif','rotulo-oficial-completo-900.webp']) await access(path.join(out,'assets',name));
 const deferredTag=html.match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
 assert(deferredTag && !/\ssrc=/.test(deferredTag),'A foto do Defumado deve ser solicitada somente após seleção');
 assert((await stat(path.join(out,'assets/favicon-marson.ico'))).size<20_000,'Favicon desnecessariamente pesado');
