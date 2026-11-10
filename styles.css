@@ -822,6 +822,27 @@ h1 em {
   line-height:1.4;
   color:#bfb5a1
 }
+.footer-flags {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:12px;
+  line-height:0;
+  opacity:.85
+}
+.footer-flags svg {
+  display:block;
+  flex-shrink:0;
+  width:auto;
+  height:14px;
+  border-radius:1px;
+  outline:1px solid #e2be7b20
+}
+.footer-flag-divider {
+  width:1px;
+  height:12px;
+  background:#e2be7b55
+}
 .footer-main>.text-link {
   font-size:10px;
   color:#c9bb9b;
