@@ -42,6 +42,7 @@ Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.h
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
 | `ritual-carousel.js` | Carrossel manual do ritual: etapas, gestos, teclado e destaques na arte |
+| `collection-carousel.js` | Coleção com rolagem contínua para os dois lados no mobile |
 | `site.config.json` | Canal de pedidos e URLs oficiais |
 | `assets/` | Imagens AVIF/WebP responsivas, favicon e imagem de compartilhamento |
 | `scripts/` | Build, servidor local, verificação e otimização de imagens |
@@ -73,6 +74,44 @@ No mobile, o menu do cabeçalho dá acesso às três seções principais e funci
 O “Ritual Marson” usa uma única arte original em quatro etapas: copo, gelo, laranja e apreciação. Os botões e as setas sincronizam o texto externo, a legenda sobreposta, o contador e os destaques SVG; no celular também é possível deslizar horizontalmente. Não há avanço automático. As transições têm 500–600 ms e respeitam movimento reduzido. Os textos ficam nos quatro itens de `src/index.template.html`, usados também pelo JavaScript. Sem JavaScript, a arte e as quatro instruções continuam visíveis. Os pontos do destaque são definidos no SVG e o zoom, nos seletores `data-focus` do CSS. `npm.cmd run check` verifica as interações e o fallback.
 
 Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem entrar após confirmação. As informações técnicas atuais foram lidas nos rótulos das artes oficiais, conforme o relatório de análise.
+
+## Coleção no mobile
+
+No celular (até 760 px), a coleção usa rolagem horizontal nativa com encaixe dos
+cards. Cópias dos dois produtos em ambas as extremidades permitem continuar nos
+dois sentidos; ao finalizar o gesto, a posição retorna ao card original idêntico.
+As cópias são `inert` e ocultas dos leitores de tela. Os links de pedido permanecem
+nos cards originais, e a indicação abaixo informa a versão atual. Também é
+possível navegar pelas setas ou pelas teclas esquerda/direita. Não há autoplay.
+Ao voltar ao desktop, as cópias e os controles são removidos e os dois produtos
+voltam a ficar lado a lado. Sem JavaScript, ambos continuam acessíveis no HTML.
+O teste em DOM simulado cobre ciclos nos dois sentidos, foco, pedidos, toques
+rápidos nos controles, larguras diferentes e movimento reduzido.
+
+## Review do especialista
+
+A seção após a coleção apresenta o vídeo fornecido de Murilo Fazolin. Em desktop,
+o player vertical fica ao lado do resumo; até 760 px, a ordem é título, vídeo e
+texto. O player nativo tem controles, tela cheia e legendas em português,
+sem autoplay e com `preload="none"`: o MP4 é solicitado ao iniciar a reprodução.
+
+- `assets/review-murilo-fazolin.mp4`: versão H.264/AAC, 480 × 854 px, cerca de 19 MB.
+- `assets/review-murilo-fazolin-capa.webp`: quadro do próprio vídeo, sem recorte.
+- `assets/review-murilo-fazolin.pt-BR.vtt`: legendas editáveis com marcação temporal.
+- `scripts/prepare-review.py`: refaz MP4 e capa com FFmpeg (ou imageio-ffmpeg) e Pillow;
+  essas ferramentas são opcionais e não são necessárias para rodar ou publicar.
+
+O original `assets/WhatsApp Video 2026-11-09 at 22.47.09.mp4` foi preservado e não é
+copiado para `dist/`. A versão otimizada mantém toda a duração (4min42s) e a
+resolução original, com metadados no início do arquivo para reprodução progressiva.
+O servidor local suporta `video/mp4`, `text/vtt` e requisições de intervalos para
+avançar/voltar. A checagem exercita esses intervalos por HTTP e valida as legendas.
+
+O resumo combina a apresentação fornecida pela marca com a transcrição local do
+vídeo. O elogio aos três melhores é atribuído à opinião de Murilo; não representa
+ranking ou premiação. As legendas partiram de reconhecimento de voz local, com
+correções de nomes e pontuação. Um trecho pouco claro em 1min14s está sinalizado;
+recomenda-se revisão humana das falas antes da publicação em produção.
 
 ## Publicar
 

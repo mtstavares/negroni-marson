@@ -1,5 +1,31 @@
 # Validação da entrega
 
+## Atualização: review e coleção mobile — 10/11/2026
+
+- A seção “Review do especialista” usa o MP4 completo fornecido, com capa extraída
+  em 15 s e legendas WebVTT em português. A versão otimizada tem 18.997.866 bytes
+  (19 MB), contra 38.196.772 bytes do original, mantendo 480 × 854 px e cerca de
+  4min42s. O vídeo aguarda reprodução manual (`preload="none"`). Áudio e vídeo
+  foram decodificados por inteiro com FFmpeg sem erros; duração e resolução
+  coincidem com as do original. `npm.cmd run check` e `npm.cmd run build` passaram.
+- O teste HTTP verifica MIME de MP4/VTT, capa, HEAD, intervalos de bytes para
+  avançar/voltar e respostas 416 para intervalos inválidos. Confere também ordem
+  temporal das legendas, ausência de autoplay e metadados MP4 antes dos dados.
+- O resumo foi conferido com a transcrição local. A afirmação dos “três melhores”
+  aparece por volta de 3min50s e está atribuída à avaliação pessoal de Murilo.
+  As legendas foram geradas por reconhecimento de voz e editadas; a fala pouco
+  clara em 1min14s está sinalizada. Revisão humana do áudio permanece recomendada.
+- A coleção mantém os dois cards no HTML, com rolagem horizontal contínua somente
+  no mobile. Testes executam o controlador em DOM simulado, incluindo voltas nos
+  dois sentidos, pedidos por produto, teclas, foco, cliques rápidos, interrupção
+  por gesto, resize, retorno ao desktop e movimento reduzido.
+- Limitação: o host de navegador estava indisponível. A tentativa de inspeção
+  nativa do Chrome foi encerrada pela ferramenta por não conseguir identificar a
+  URL atual com confiança. Nenhuma validação visual ou reprodução real no browser
+  foi declarada. Conferir a prévia em 320/390/760 px e desktop antes de publicar.
+
+## Histórico da validação
+
 A revisão mais recente de usabilidade, resolução de imagens e pesos de arquivos está em [Revisão geral](REVISAO-GERAL.md). Ela adiciona AVIF/WebP responsivos, fontes nativas maiores para produtos, recortes sem interface do Instagram, menu mobile e carregamento opcional da imagem do Defumado. Os checks e a decodificação das imagens passaram. O PageSpeed retornou HTTP 429 e o host de navegador permaneceu indisponível; os limites de medição estão registrados no relatório.
 
 Atualização da perspectiva na caixa presente: a silhueta, a tampa, o vidro e a base passam a ser exatamente os mesmos nas duas versões. A arte do rótulo do Defumado é projetada sobre a superfície do Clássico, com máscara fixa e fade de 0,9 segundo. Uma prévia técnica rasterizada foi inspecionada para conferir a composição. Os checks verificam os quatro cantos da projeção em larguras de 320, 640 e 1000 px, além de preservação da base, seleções rápidas e falha de carregamento. A inspeção técnica das camadas não equivale à validação da animação em navegador.
