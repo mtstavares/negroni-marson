@@ -5,6 +5,8 @@ import vm from 'node:vm';
 import {build,root} from './build.mjs';
 import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
 import {checkRitual} from './check-ritual.mjs';
+import {checkReview} from './check-review.mjs';
+import {checkCollection} from './check-collection.mjs';
 
 const {html,config,out}=await build();
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
@@ -22,13 +24,13 @@ if(config.siteUrl) {
   assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)?.[1],`${publicUrl}/`);
   assert.equal(html.match(/<meta property="og:image" content="([^"]+)"/)?.[1],`${publicUrl}/assets/social.jpg`);
 }
-assert(!(await readdir(path.join(out,'assets'))).some(name=>name.startsWith('WhatsApp Image ')),'Capturas originais não devem entrar no build');
+assert(!(await readdir(path.join(out,'assets'))).some(name=>/^WhatsApp (Image|Video) /.test(name)),'Mídias originais não devem entrar no build');
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'IDs duplicados');
 assert.equal((html.match(/<h1\b/g)||[]).length,1,'A página deve ter um H1');
 assert.match(html,/<html lang="pt-BR">/);
 for(const m of html.matchAll(/href="#([^"]+)"/g)) assert(ids.includes(m[1]),`Âncora ausente: ${m[1]}`);
-for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js|ritual-carousel\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
+for(const m of html.matchAll(/(?:src|href)="((?:assets\/|styles\.css|app\.js|label-story\.js|ritual-carousel\.js|collection-carousel\.js)[^"]*)"/g)) await access(path.join(out,m[1].split('?')[0]));
 for(const m of html.matchAll(/srcset="([^"]+)"/g)) for(const candidate of m[1].split(',')) await access(path.join(out,candidate.trim().split(' ')[0]));
 for(const m of html.matchAll(/<img\b[^>]*>/g)){
   assert(/alt="[^"]+"/.test(m[0]) || /alt=""[^>]*aria-hidden="true"/.test(m[0]),'Imagem sem descrição ou identificação decorativa');
@@ -48,6 +50,8 @@ assert.match(html,/name="viewport"/);
 assert.match(html,/property="og:image"/);
 assert.match(html,/name="twitter:card"/);
 checkRitual(html);
+checkCollection(html);
+await checkReview(html,out,root);
 
 // Exercise the actual gift-selection event handler without a browser dependency.
 const elements=new Map();

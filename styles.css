@@ -1671,6 +1671,55 @@ h1 em {
   .label-figure>figcaption {font-size:11px;}
 }
 
+.collection-controls[hidden] {display:none;}
+@media(max-width:760px) {
+  .collection.is-carousel .product-grid {position:relative;display:flex;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:8px;scrollbar-width:none;padding:8px;margin:-8px;-webkit-overflow-scrolling:touch;}
+  .collection.is-carousel .product-grid::-webkit-scrollbar {display:none;}
+  .collection.is-carousel .product-card {flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;}
+  .collection.is-carousel .product-visual img {user-select:none;}
+  .collection.is-carousel .product-grid:focus-visible {outline:2px solid var(--gold);outline-offset:5px;}
+  .collection-controls {margin-top:26px;}
+  .collection-swipe-hint {text-align:center;font-size:11px;color:var(--muted);line-height:1.8;}
+  .collection-swipe-hint>span {margin-left:5px;color:var(--gold);}
+  .collection-navigation {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;}
+  .collection-navigation button {display:grid;place-items:center;min-width:48px;min-height:46px;border:1px solid #695736;background:transparent;color:var(--gold);font-size:20px;cursor:pointer;}
+  .collection-navigation button:hover {background:#e2be7b12;}
+  .collection-count {font-size:12px;color:var(--cream);text-align:center;}
+  .collection.is-carousel .collection-note {margin-top:26px;}
+}
+
+/* Native video controls: no autoplay, no third-party player or extra scripts. */
+.expert-review {display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);column-gap:clamp(36px,7vw,100px);row-gap:26px;border-top:1px solid var(--line);padding-block:88px;}
+.review-heading {grid-column:2;grid-row:1;align-self:end;min-width:0;}
+.review-heading>.eyebrow {margin-bottom:18px;}
+.review-media {grid-column:1;grid-row:1 / span 2;align-self:center;width:100%;max-width:340px;margin:0 auto;min-width:0;}
+.review-media video {display:block;width:100%;height:auto;aspect-ratio:480 / 854;object-fit:contain;background:#151512;border:1px solid #655036;border-radius:4px;color:var(--text);}
+.review-media video:focus-visible {outline:3px solid var(--gold);outline-offset:5px;}
+.review-copy {grid-column:2;grid-row:2;align-self:start;min-width:0;max-width:540px;}
+.review-author {font-family:var(--serif);font-size:27px;color:var(--cream);line-height:1.3;}
+.review-author>span {display:block;font-family:var(--sans);font-size:12px;color:var(--muted);line-height:1.8;margin-top:7px;}
+.review-instagram {display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:5px;font-size:13px;color:var(--gold);}
+.review-instagram:hover>span:first-of-type {text-decoration:underline;text-underline-offset:4px;}
+.review-copy>p:not(.review-author) {font-size:15px;line-height:1.85;color:var(--muted);margin-top:23px;}
+.review-notes {display:grid;gap:12px;list-style:none;padding:0;margin:24px 0;}
+.review-notes li {display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;font-size:13px;line-height:1.8;}
+.review-notes strong {color:var(--gold);font-weight:500;}
+.review-notes li>span {color:var(--muted);}
+.review-verdict {border-left:2px solid var(--gold);padding:2px 0 2px 20px;}
+.review-verdict>p {font-family:var(--serif);font-size:clamp(23px,2.2vw,29px);line-height:1.3;color:var(--cream);}
+.review-verdict>span {display:block;margin-top:10px;font-size:11px;line-height:1.7;color:var(--muted);}
+@media(max-width:760px) {
+  .expert-review {display:flex;flex-direction:column;gap:28px;padding-block:60px;}
+  .review-heading {align-self:auto;}
+  .review-heading>.eyebrow {font-size:9px;margin-bottom:16px;}
+  .review-media {max-width:320px;align-self:center;}
+  .review-copy {max-width:none;}
+  .review-copy>p:not(.review-author) {font-size:14px;margin-top:18px;}
+  .review-notes {gap:10px;margin-block:22px;}
+  .review-notes li {grid-template-columns:78px minmax(0,1fr);gap:10px;font-size:13px;}
+  .review-verdict {padding-left:16px;}
+}
+
 /* The original ritual artwork is loaded once; steps and focus move above it. */
 .ritual {grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:26px clamp(32px,6vw,88px);align-items:center;padding-block:90px;}
 .ritual .ritual-intro {grid-column:2;grid-row:1;align-self:end;min-width:0;}

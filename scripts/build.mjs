@@ -20,6 +20,7 @@ export async function build(){
   let html=await readFile(path.join(root,'src/index.template.html'),'utf8');
   html=html.replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
     .replaceAll('{{instagramUrl}}',escape(config.instagramUrl))
+    .replaceAll('{{reviewerInstagramUrl}}',escape(config.reviewerInstagramUrl))
     .replaceAll('{{catalogUrl}}',escape(config.catalogUrl))
     .replaceAll('{{facebookUrl}}',escape(config.facebookUrl))
     .replaceAll('{{whatsappDisplay}}',escape(config.whatsappDisplay))
@@ -27,7 +28,7 @@ export async function build(){
     .replaceAll('{{canonical}}',siteUrl?`<link rel="canonical" href="${escape(siteUrl)}/"><meta property="og:url" content="${escape(siteUrl)}/">`:'');
   if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
   // Give returning GitHub Pages visitors the matching assets after each edit.
-  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
+  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets/review-murilo-fazolin.mp4','assets/review-murilo-fazolin-capa.webp','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
     const bytes=await readFile(path.join(root,file));
     const content=/\.(css|js)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes;
     const hash=createHash('sha256').update(content).digest('hex').slice(0,10);
@@ -51,16 +52,16 @@ export async function build(){
   else await unlink(path.join(out,'CNAME')).catch(error=>{
     if(error.code!=='ENOENT') throw error;
   });
-  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','assets']) await cp(path.join(root,file),path.join(out,file),{
+  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets']) await cp(path.join(root,file),path.join(out,file),{
     recursive:true,
     // Keep supplied Instagram captures in the workspace; ship optimized assets.
-    filter:source=>!path.basename(source).startsWith('WhatsApp Image ')
+    filter:source=>!/^WhatsApp (Image|Video) /.test(path.basename(source))
   });
   // Remove only stale generated copies left by earlier builds. Originals in
   // the workspace's assets directory are never modified or removed here.
   const assetOutput=path.join(out,'assets');
   for(const name of await readdir(assetOutput)) {
-    if(name.startsWith('WhatsApp Image ') && /\.jpe?g$/i.test(name)) await unlink(path.join(assetOutput,name));
+    if(/^WhatsApp (Image|Video) /.test(name) && /\.(jpe?g|mp4)$/i.test(name)) await unlink(path.join(assetOutput,name));
   }
   if(siteUrl) await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\n`);
   return {out,config,html};
