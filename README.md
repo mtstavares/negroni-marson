@@ -28,6 +28,7 @@ Edite somente **`site.config.json`**:
 - `orderMessages`: mensagens de cada versão e caixa. O build adiciona `text` quando o destino é `wa.me` ou `api.whatsapp.com`.
 - `whatsappDisplay`: número legível apresentado na abertura, na seção de pedidos e no rodapé. Hoje: **+55 (19) 99906-0077**, confirmado no Linktree da marca.
 - `instagramUrl`, `catalogUrl` e `facebookUrl`: links institucionais confirmados no Linktree oficial.
+- `reviewerInstagramUrl`: Instagram de Murilo Fazolin, exibido na seção do review.
 - `siteUrl`: endereço HTTPS da landing page, sem barra final. Configurado como `https://www.negronimarson.com.br`. Gera canonical, `og:url` e imagem de compartilhamento com URL absoluta. O acesso público depende da propagação do DNS e da emissão do certificado pelo Pages.
 
 Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.html` da raiz**, que já fica pronto para o GitHub Pages, com todos os links resolvidos. Não edite esses HTMLs gerados diretamente: edite `src/index.template.html`. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
@@ -100,6 +101,14 @@ sem autoplay e com `preload="none"`: o MP4 é solicitado ao iniciar a reproduç�
 - `assets/review-murilo-fazolin.pt-BR.vtt`: legendas editáveis com marcação temporal.
 - `scripts/prepare-review.py`: refaz MP4 e capa com FFmpeg (ou imageio-ffmpeg) e Pillow;
   essas ferramentas são opcionais e não são necessárias para rodar ou publicar.
+
+O vídeo e sua capa incluem a logo oficial `docs/referencias/marca-original.png`,
+um PNG RGBA com transparência, no canto inferior direito. A marca-d'água tem 84 px
+de largura no vídeo original, opacidade de 32%, margem direita de 16 px e margem
+inferior de 64 px para dar espaço aos controles. Ela é incorporada ao MP4 e aparece
+também em tela cheia. Ajuste esses valores em `scripts/prepare-review.py`.
+O selo mantém o desenho preto e dourado original. O build versiona os URLs do
+vídeo e da capa para que uma nova edição não continue usando a mídia em cache.
 
 O original `assets/WhatsApp Video 2026-11-09 at 22.47.09.mp4` foi preservado e não é
 copiado para `dist/`. A versão otimizada mantém toda a duração (4min42s) e a

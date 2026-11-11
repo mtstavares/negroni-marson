@@ -14,7 +14,7 @@ export async function checkReview(html,out,root) {
   const source='assets/review-murilo-fazolin.mp4';
   const size=(await stat(path.join(out,source))).size;
   assert(size<25*1024*1024,'MP4 acima do limite por arquivo do Cloudflare Pages');
-  const poster=video.match(/poster="([^"]+)"/)[1];
+  const poster=video.match(/poster="([^"]+)"/)[1].split('?')[0];
   assert((await stat(path.join(out,poster))).size<100_000,'Capa muito pesada');
   const track=section.match(/<track[^>]+src="([^"]+)"[^>]*>/);
   assert(track?.[0].includes('srclang="pt-BR"')&&track[0].includes('default'));
