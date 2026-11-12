@@ -1825,6 +1825,7 @@ h1 em,.hero-title em {
 /* Shared navigation and independent content pages. */
 .header>nav {gap:clamp(12px,1.8vw,24px);margin:0;}
 .header nav a {white-space:nowrap;text-transform:uppercase;font-size:12px;letter-spacing:0.08em;}
+.header-order {text-transform:uppercase;letter-spacing:0.08em;}
 .header nav a[aria-current="page"] {color:var(--gold);text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:1px;}
 .content-page h1 {margin:0;line-height:1.12;}
 .content-page h1 em {white-space:normal;}
