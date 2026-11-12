@@ -30,7 +30,7 @@ export async function checkStory({html,storyHtml,config,out,root}) {
     const url=config.siteUrl.replace(/\/$/,'');
     assert.equal(storyHtml.match(/rel="canonical" href="([^"]+)"/)?.[1],`${url}/historia.html`);
     assert.equal(storyHtml.match(/property="og:url" content="([^"]+)"/)?.[1],`${url}/historia.html`);
-    assert.equal(storyHtml.match(/property="og:image" content="([^"]+)"/)?.[1],`${url}/assets/img2.jpeg`);
+    assert.equal(storyHtml.match(/property="og:image" content="([^"]+)"/)?.[1],`${url}/assets/img1.jpeg`);
   }
   for(const [tag] of storyHtml.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) assert.match(tag,/rel="noopener noreferrer"/);
   const channel=new URL(config.orderBaseUrl);

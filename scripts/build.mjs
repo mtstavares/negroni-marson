@@ -4,6 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 
 export const root = fileURLToPath(new URL('../',import.meta.url));
+export const pageNames=['index','historia','rotulo','colecao','review','presentes','ritual'];
 export async function build(){
   const config=JSON.parse(await readFile(path.join(root,'site.config.json'),'utf8'));
   const destination=new URL(config.orderBaseUrl);
@@ -25,7 +26,9 @@ export async function build(){
   const homeLinks=markup=>markup.replace(/href="#([^"]+)"/g,'href="index.html#$1"');
   const render=(source,pagePath='',socialImage='assets/social.jpg')=>{
     const canonical=siteUrl?`${siteUrl}/${pagePath}`:'';
-    const result=source.replaceAll('{{siteHeader}}',homeLinks(header))
+    const activePage=pagePath||'index.html';
+    const pageHeader=homeLinks(header).replaceAll(`href="${activePage}"`,`href="${activePage}" aria-current="page"`);
+    const result=source.replaceAll('{{siteHeader}}',pageHeader)
     .replaceAll('{{siteFooter}}',homeLinks(footer+mobileOrder))
     .replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
     .replaceAll('{{instagramUrl}}',escape(config.instagramUrl))
@@ -38,21 +41,23 @@ export async function build(){
     if(result.includes('{{')) throw new Error(`Placeholder pendente em ${pagePath||'index.html'}.`);
     return result;
   };
-  let html=render(template);
-  let storyHtml=render(await readFile(path.join(root,'src/historia.template.html'),'utf8'),'historia.html','assets/img2.jpeg');
+  const pages={};
+  for(const name of pageNames) {
+    const source=name==='index'?template.replace(header,'{{siteHeader}}'):await readFile(path.join(root,`src/${name}.template.html`),'utf8');
+    pages[`${name}.html`]=render(source,name==='index'?'':`${name}.html`,name==='historia'?'assets/img1.jpeg':'assets/social.jpg');
+  }
   // Give returning GitHub Pages visitors the matching assets after each edit.
   for(const file of ['styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets/review-murilo-fazolin.mp4','assets/review-murilo-fazolin-capa.webp','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
     const bytes=await readFile(path.join(root,file));
     const content=/\.(css|js)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes;
     const hash=createHash('sha256').update(content).digest('hex').slice(0,10);
-    html=html.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
-    storyHtml=storyHtml.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
+    for(const name of Object.keys(pages)) pages[name]=pages[name].replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
   }
   const out=path.join(root,'dist');
   await mkdir(out,{recursive:true});
   // GitHub Pages can serve the repository root directly. Keep that entry point
   // valid static HTML, including working contacts before any JavaScript runs.
-  for(const [name,content] of [['index.html',html],['historia.html',storyHtml]]) {
+  for(const [name,content] of Object.entries(pages)) {
     await writeFile(path.join(out,name),content);
     const entry=path.join(root,name);
     if(await readFile(entry,'utf8').catch(()=>'') !== content) await writeFile(entry,content);
@@ -80,7 +85,7 @@ export async function build(){
     if(/^WhatsApp (Image|Video) /.test(name) && /\.(jpe?g|mp4)$/i.test(name)) await unlink(path.join(assetOutput,name));
   }
   if(siteUrl) await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\n`);
-  return {out,config,html,storyHtml};
+  return {out,config,pages,html:pages['index.html'],storyHtml:pages['historia.html']};
 }
 if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const {out,config}=await build();

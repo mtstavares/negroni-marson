@@ -3,7 +3,7 @@ import {readFile,stat} from 'node:fs/promises';
 import {watch,createReadStream} from 'node:fs';
 import {pipeline} from 'node:stream/promises';
 import path from 'node:path';
-import {build,root} from './build.mjs';
+import {build,root,pageNames} from './build.mjs';
 
 const production=process.argv.includes('--production');
 const port=Number(process.env.PORT||4173);
@@ -44,7 +44,7 @@ server.listen(port,'127.0.0.1',()=>console.log(`Local: http://127.0.0.1:${server
 server.on('error',error=>{console.error(error.message);process.exit(1);});
 if(!production){
   let debounce;
-  for(const file of ['src/index.template.html','src/historia.template.html','styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','site.config.json','assets']) watch(path.join(root,file),()=>{
+  for(const file of [...pageNames.map(name=>`src/${name}.template.html`),'styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','site.config.json','assets']) watch(path.join(root,file),()=>{
     clearTimeout(debounce);debounce=setTimeout(()=>build().then(()=>console.log('Atualizado. Recarregue a página.')).catch(error=>console.error(error.message)),120);
   });
 }

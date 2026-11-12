@@ -8,8 +8,11 @@ import {checkRitual} from './check-ritual.mjs';
 import {checkReview} from './check-review.mjs';
 import {checkCollection} from './check-collection.mjs';
 import {checkStory} from './check-story.mjs';
+import {checkPages} from './check-pages.mjs';
 
-const {html,storyHtml,config,out}=await build();
+const {html,storyHtml,pages,config,out}=await build();
+const labelHtml=pages['rotulo.html'];
+await checkPages({pages,config,out,root});
 await checkStory({html,storyHtml,config,out,root});
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
 assert(!html.includes('{{'),'GitHub Pages não deve receber marcadores de template');
@@ -41,7 +44,7 @@ for(const m of html.matchAll(/<img\b[^>]*>/g)){
 }
 const channel=new URL(config.orderBaseUrl);
 const orderLinks=[...html.matchAll(/href="(https:\/\/[^\"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&'))).filter(url=>url.hostname===channel.hostname && url.pathname===channel.pathname);
-assert(orderLinks.length>=7,'CTAs insuficientes');
+assert(orderLinks.length>=3,'Canais de pedido do cabeçalho e rodapé ausentes');
 for(const url of orderLinks){
   assert.equal(url.pathname,channel.pathname,'Canal de pedido divergente');
   if(['wa.me','api.whatsapp.com'].includes(channel.hostname)) assert(url.searchParams.get('text')?.includes('Negroni Marson'),'Mensagem do pedido ausente');
@@ -51,9 +54,9 @@ assert(!html.includes('{{'),'Placeholder não resolvido');
 assert.match(html,/name="viewport"/);
 assert.match(html,/property="og:image"/);
 assert.match(html,/name="twitter:card"/);
-checkRitual(html);
-checkCollection(html);
-await checkReview(html,out,root);
+checkRitual(pages['ritual.html']);
+checkCollection(pages['colecao.html']);
+await checkReview(pages['review.html'],out,root,pages);
 
 // Exercise the actual gift-selection event handler without a browser dependency.
 const elements=new Map();
@@ -124,9 +127,9 @@ await access(path.join(out,'assets/mascara-presente-novo.svg'));
 
 // Automatic label exploration must stop offscreen, when paused, on a hidden
 // page and for reduced-motion users. A manual selection pauses the sequence.
-assert.equal([...html.matchAll(/data-label-step="/g)].length,5);
-assert.equal([...html.matchAll(/data-label-part="/g)].length,5);
-assert.equal([...html.matchAll(/data-label-hotspot="/g)].length,5);
+assert.equal([...labelHtml.matchAll(/data-label-step="/g)].length,5);
+assert.equal([...labelHtml.matchAll(/data-label-part="/g)].length,5);
+assert.equal([...labelHtml.matchAll(/data-label-hotspot="/g)].length,5);
 for(const match of html.matchAll(/aria-controls="([^"]+)"/g)) assert(ids.includes(match[1]),`Controle sem destino: ${match[1]}`);
 let pending;
 let playing;
@@ -160,7 +163,7 @@ function uiNode(textContent='') {
     animate(){this.animationCount++;return {cancel(){}};}
   };
 }
-const sourceStories=[...html.matchAll(/<button[^>]+data-label-step="(\d+)"[^>]*>[\s\S]*?<strong>([^<]+)<\/strong><span>([^<]+)<\/span>/g)];
+const sourceStories=[...labelHtml.matchAll(/<button[^>]+data-label-step="(\d+)"[^>]*>[\s\S]*?<strong>([^<]+)<\/strong><span>([^<]+)<\/span>/g)];
 assert.equal(sourceStories.length,5);
 const storyButtons=sourceStories.map(([_,index,title,description])=>{
   const node=uiNode();node.dataset.labelStep=index;
@@ -183,7 +186,7 @@ assert.equal(touchSection.dataset.exploring,'true');
 assert.equal(touchNodes.get('#label-card-title').textContent,'O Cristo');
 assert.equal(markerButtons[2].attrs['aria-pressed'],'true');
 assert.equal(markerButtons[0].attrs['aria-pressed'],'false');
-const christCircle=html.match(/data-label-part="2"[^>]*>[\s\S]*?<circle cx="([\d.]+)" cy="([\d.]+)"/);
+const christCircle=labelHtml.match(/data-label-part="2"[^>]*>[\s\S]*?<circle cx="([\d.]+)" cy="([\d.]+)"/);
 assert(christCircle,'O destaque do Cristo deve existir no SVG');
 assert(Math.abs(parseFloat(touchSection.style.values['--label-focus-x'])-Number(christCircle[1])/360*100)<.01,'O zoom deve apontar para o Cristo na arte atual');
 assert(Math.abs(parseFloat(touchSection.style.values['--label-focus-y'])-Number(christCircle[2])/710*100)<.01,'O zoom e o destaque devem permanecer alinhados');
@@ -207,7 +210,7 @@ assert.equal(touchNodes.get('#label-reset').hidden,true);
 explorer.destroy();assert.equal(pending,undefined);
 
 // Mobile navigation must close on selection, Escape and an outside click.
-const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:3},()=>uiNode());
+const menu=uiNode(),menuSummary=uiNode(),menuLinks=Array.from({length:6},()=>uiNode());
 menu.querySelector=()=>menuSummary;menu.querySelectorAll=()=>menuLinks;
 menu.contains=target=>target===menu||target===menuSummary||menuLinks.includes(target);
 elements.set('#mobile-navigation',menu);
@@ -223,7 +226,7 @@ assert.equal(menu.open,false);assert(menuSummary.focused);assert(escapePrevented
 
 assert.match(html,/<link rel="preload"[^>]+type="image\/avif"/);
 for(const name of ['classico-oficial-1024.avif','defumado-oficial-1024.avif','presente-novo-1254.avif','presente-defumado-1216.avif','rotulo-oficial-detalhe-460.avif','rotulo-oficial-completo-900.webp']) await access(path.join(out,'assets',name));
-const deferredTag=html.match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
+const deferredTag=pages['presentes.html'].match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
 assert(deferredTag && !/\ssrc=/.test(deferredTag),'A foto do Defumado deve ser solicitada somente após seleção');
 assert((await stat(path.join(out,'assets/favicon-marson.ico'))).size<20_000,'Favicon desnecessariamente pesado');
 

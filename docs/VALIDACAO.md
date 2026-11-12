@@ -116,3 +116,15 @@ Com `npm.cmd run dev`, abra http://127.0.0.1:4173 e verifique:
 ## Pendências de publicação
 
 Envio das alterações ao GitHub, inspeção visual real e confirmação da marca sobre informações comerciais e fidelidade física das artes. O endereço do GitHub Pages e os contatos oficiais já foram verificados. O relatório de análise lista os materiais necessários para concluir a evolução do perfil.
+
+
+## Separação em páginas — 12/11/2026
+
+Home limitada a fundador e Negroni artesanal; cinco páginas independentes e
+história completa preservada. Verificações automatizadas cobrem os sete HTMLs,
+links e âncoras, imagens responsivas, menus, metadados, scripts por página e
+respostas HTTP das páginas, além das interações existentes e reprodução por
+intervalos do vídeo. A imagem de Leandro é a mesma na home e na história.
+
+A inspeção visual desktop/mobile permanece pendente: a ferramenta de navegador
+retornou “The browser access host is unavailable”. Nenhuma publicação foi feita.
