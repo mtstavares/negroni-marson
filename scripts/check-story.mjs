@@ -7,7 +7,7 @@ export async function checkStory({html,storyHtml,config,out,root}) {
   assert.equal(await readFile(path.join(out,'historia.html'),'utf8'),storyHtml);
   assert(html.indexOf('class="founder-intro section"')<html.indexOf('class="hero"'),'A história deve vir antes da abertura original');
   assert(html.includes('href="historia.html"'));
-  assert.match(html,/<h2 class="hero-title"[^>]*>Um clássico\.<br><em>O seu momento\.<\/em><\/h2>/,'Manter a abertura original');
+  assert.match(html,/<h2 class="hero-title"[^>]*>Mais que um drink\.<br><em>Bons momentos\.<\/em><\/h2>/,'Manter a abertura original');
   assert.equal((storyHtml.match(/<h1\b/g)||[]).length,1);
   assert(!storyHtml.includes('{{'));
   assert(!/<script[^>]+src="app\.js/.test(storyHtml),'A página de história não deve carregar o controlador da caixa presente');
@@ -30,7 +30,7 @@ export async function checkStory({html,storyHtml,config,out,root}) {
     const url=config.siteUrl.replace(/\/$/,'');
     assert.equal(storyHtml.match(/rel="canonical" href="([^"]+)"/)?.[1],`${url}/historia.html`);
     assert.equal(storyHtml.match(/property="og:url" content="([^"]+)"/)?.[1],`${url}/historia.html`);
-    assert.equal(storyHtml.match(/property="og:image" content="([^"]+)"/)?.[1],`${url}/assets/img1.jpeg`);
+    assert.equal(storyHtml.match(/property="og:image" content="([^"]+)"/)?.[1],`${url}/assets/img2.jpeg`);
   }
   for(const [tag] of storyHtml.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) assert.match(tag,/rel="noopener noreferrer"/);
   const channel=new URL(config.orderBaseUrl);

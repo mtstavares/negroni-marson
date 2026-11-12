@@ -44,7 +44,7 @@ export async function build(){
   const pages={};
   for(const name of pageNames) {
     const source=name==='index'?template.replace(header,'{{siteHeader}}'):await readFile(path.join(root,`src/${name}.template.html`),'utf8');
-    pages[`${name}.html`]=render(source,name==='index'?'':`${name}.html`,name==='historia'?'assets/img1.jpeg':'assets/social.jpg');
+    pages[`${name}.html`]=render(source,name==='index'?'':`${name}.html`,name==='historia'?'assets/img2.jpeg':'assets/social.jpg');
   }
   // Give returning GitHub Pages visitors the matching assets after each edit.
   for(const file of ['styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets/review-murilo-fazolin.mp4','assets/review-murilo-fazolin-capa.webp','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
