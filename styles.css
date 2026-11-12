@@ -1813,6 +1813,38 @@ h1 em,.hero-title em {
 .header>nav {gap:clamp(12px,1.8vw,24px);margin:0;}
 .header nav a {white-space:nowrap;text-transform:uppercase;font-size:12px;letter-spacing:0.08em;}
 .header-order {text-transform:uppercase;letter-spacing:0.08em;}
+
+/* Larger reading copy; heading, navigation and button sizes stay independent. */
+body .hero-description,body .founder-copy>p,body .story-prose>p {font-size:18px;}
+body .section-heading>p,body .product-copy>p:not(.eyebrow),body .gift-content>p:not(.eyebrow):not(.gift-status),body .review-copy>p:not(.review-author),body .ritual .ritual-slide p {font-size:17px;}
+body .ritual-intro>p:not(.eyebrow) {font-size:16px;}
+body .label-heading>p:last-child,body #label-card-description {font-size:15px;}
+body .collection-note,body .gift-status {font-size:14px;}
+body .label-controls p,body .label-instruction {font-size:11px;}
+body .label-scene-footer p {font-size:12px;}
+body .footer-bottom p {font-size:13px;}
+body .footer-main>.footer-origin {font-size:20px;}
+body .story-lead {font-size:25px;}
+body .story-prose>.story-question {font-size:29px;}
+body .story-signature>p:first-child {font-size:13px;}
+body .story-signature>p+p {font-size:27px;}
+body .review-author {font-size:29px;}
+body .review-verdict>p {font-size:clamp(25px,2.4vw,31px);}
+body .ritual-overlay>p {font-size:clamp(23px,2.4vw,32px);}
+body .ritual-count {font-size:13px;}
+body .hero-specs strong {font-size:16px;line-height:1.6;}
+body .hero-specs>span:last-child strong {font-weight:700;}
+body .hero-specs small {font-size:13px;line-height:1.6;}
+@media(max-width:760px) {
+  body .hero-description,body .story-prose>p {font-size:17px;}
+  body .founder-copy>p,body .section-heading>p,body .product-copy>p:not(.eyebrow),body .gift-content>p:not(.eyebrow):not(.gift-status),body .review-copy>p:not(.review-author),body .ritual .ritual-slide p {font-size:16px;}
+  body .story-lead {font-size:23px;}
+  body .story-prose>.story-question {font-size:27px;}
+  body .footer-main>.footer-origin {font-size:18px;}
+  body .collection-swipe-hint {font-size:13px;}
+  body .collection-count {font-size:14px;}
+  body .ritual-overlay>p {font-size:27px;}
+}
 .header nav a[aria-current="page"] {color:var(--gold);text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:1px;}
 .content-page h1 {margin:0;line-height:1.12;}
 .content-page h1 em {white-space:normal;}
