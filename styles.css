@@ -1877,6 +1877,7 @@ html {scroll-padding-top:132px;}
 .header {position:sticky;top:0;z-index:50;background:var(--ink);width:100%;padding-inline:calc((100% - var(--page))/2);}
 .hero-title em {white-space:normal;}
 .hero-specs>span {min-width:0;}
+.hero-specs>span:last-child {display:flex;align-items:center;}
 .footer-links {min-width:0;}
 .footer-links .social-label {overflow-wrap:anywhere;}
 .hero-label {font-size:13px;}
