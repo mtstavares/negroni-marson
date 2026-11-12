@@ -31,16 +31,19 @@ Edite somente **`site.config.json`**:
 - `reviewerInstagramUrl`: Instagram de Murilo Fazolin, exibido na seção do review.
 - `siteUrl`: endereço HTTPS da landing page, sem barra final. Configurado como `https://www.negronimarson.com.br`. Gera canonical, `og:url` e imagem de compartilhamento com URL absoluta. O acesso público depende da propagação do DNS e da emissão do certificado pelo Pages.
 
-Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.html` da raiz**, que já fica pronto para o GitHub Pages, com todos os links resolvidos. Não edite esses HTMLs gerados diretamente: edite `src/index.template.html`. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
+Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.html` da raiz**, que já fica pronto para o GitHub Pages, com todos os links resolvidos. Não edite os HTMLs gerados diretamente: edite o template correspondente em `src/`. Os links abrem uma conversa com mensagem preenchida; o visitante envia a mensagem. A página não transmite pedidos automaticamente.
 
 ## Arquivos
 
 | Arquivo | Uso |
 | --- | --- |
 | `src/index.template.html` | Fonte do conteúdo e estrutura; marcadores são resolvidos no build |
+| `src/historia.template.html` | Texto completo da história de Leandro e da marca |
+| `historia.html` | Página da história gerada e versionada para publicar pela raiz |
 | `index.html` | HTML final gerado e versionado, pronto para servir pela raiz do GitHub Pages |
 | `styles.css` | Identidade visual, espaçamentos e versões responsivas |
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
+| `site.js` | Menu mobile e ano do rodapé, compartilhados por todas as páginas |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
 | `ritual-carousel.js` | Carrossel manual do ritual: etapas, gestos, teclado e destaques na arte |
 | `collection-carousel.js` | Coleção com rolagem contínua para os dois lados no mobile |
@@ -62,7 +65,7 @@ As imagens usadas são **artes oficiais fornecidas pela marca**, sem confirmaç�
 
 Para preparar imagens, execute `python scripts/prepare-images.py` com Pillow e suporte a AVIF. O script gera versões AVIF/WebP dos originais disponíveis, sem ampliação artificial. As novas garrafas têm 1024 × 1536 px. A caixa usa `assets/presente-novo.jpeg`, com 1254 × 1254 px, e variantes de 480, 640, 960 e 1254 px. O hero em AVIF tem cerca de 60 kB em 800 px ou 88 kB em resolução nativa. A arte completa do rótulo tem 900 × 1600 px e seu recorte interativo, 460 × 907 px. Python não é necessário para rodar ou publicar o site depois que os assets estão preparados.
 
-Ao trocar uma imagem, preserve a proporção e atualize os `<source>`, `src`, `srcset`, `sizes`, `width`, `height` e `alt` em `src/index.template.html`. O preload do hero precisa continuar usando os mesmos candidatos e tamanhos da imagem principal. `docs/imagens-responsivas.json` registra os arquivos gerados.
+Ao trocar uma imagem, preserve a proporção e atualize os `<source>`, `src`, `srcset`, `sizes`, `width`, `height` e `alt` no template da página em `src/`. O preload do hero precisa continuar usando os mesmos candidatos e tamanhos da imagem principal. `docs/imagens-responsivas.json` registra os arquivos gerados.
 
 Na caixa presente, cenário, tampa, vidro e base da garrafa são fixos e idênticos nas duas seleções. O rótulo do Defumado é projetado na mesma superfície do Clássico por uma matriz de perspectiva recalculada conforme a largura da imagem. A nova composição de `presente-novo.jpeg` usa a máscara `assets/mascara-presente-novo.svg` e a projeção recalibrada em `app.js`; `.gift-bottle-layer` controla o fade de **0,9 segundo**. O JavaScript solicita a imagem alternativa somente após a escolha, informa carregamento/erro e oferece uma nova tentativa. Também sincroniza uma opção restaurada pelo navegador. Ao substituir as artes, recalibre `giftLabelProjection` e a máscara. A preferência por movimento reduzido remove o fade.
 
@@ -70,11 +73,27 @@ No mobile (até 760 px), “Por trás do rótulo” funciona por toque: cinco ma
 
 As capturas do Instagram e as novas imagens oficiais adicionadas pelo solicitante permanecem em `assets/`. O script prepara somente as áreas usadas pela página, sem carregar a interface do Instagram. “Por trás do rótulo” agora usa a arte oficial, com pontos do SVG e do zoom recalibrados. Se a imagem mudar, ajuste os recortes em `scripts/prepare-images.py`, os círculos do SVG no template e os pontos do zoom em `label-story.js`. O build exclui os originais com prefixo `WhatsApp Image ` da cópia para `dist/`.
 
-No mobile, o menu do cabeçalho dá acesso às três seções principais e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
+No mobile, o menu do cabeçalho dá acesso a todas as páginas do site e funciona mesmo sem JavaScript. Com JavaScript, fecha na seleção, no clique fora e em Escape, com retorno de foco ao controle.
 
-O “Ritual Marson” usa uma única arte original em quatro etapas: copo, gelo, laranja e apreciação. Os botões e as setas sincronizam o texto externo, a legenda sobreposta, o contador e os destaques SVG; no celular também é possível deslizar horizontalmente. Não há avanço automático. As transições têm 500–600 ms e respeitam movimento reduzido. Os textos ficam nos quatro itens de `src/index.template.html`, usados também pelo JavaScript. Sem JavaScript, a arte e as quatro instruções continuam visíveis. Os pontos do destaque são definidos no SVG e o zoom, nos seletores `data-focus` do CSS. `npm.cmd run check` verifica as interações e o fallback.
+O “Ritual Marson” usa uma única arte original em quatro etapas: copo, gelo, laranja e apreciação. Os botões e as setas sincronizam o texto externo, a legenda sobreposta, o contador e os destaques SVG; no celular também é possível deslizar horizontalmente. Não há avanço automático. As transições têm 500–600 ms e respeitam movimento reduzido. Os textos ficam nos quatro itens de `src/ritual.template.html`, usados também pelo JavaScript. Sem JavaScript, a arte e as quatro instruções continuam visíveis. Os pontos do destaque são definidos no SVG e o zoom, nos seletores `data-focus` do CSS. `npm.cmd run check` verifica as interações e o fallback.
 
 Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem entrar após confirmação. As informações técnicas atuais foram lidas nos rótulos das artes oficiais, conforme o relatório de análise.
+
+## Apresentação do fundador e história
+
+A primeira seção da home apresenta Leandro Marson com `assets/img1.jpeg`, seguida
+da abertura original “Um clássico. O seu momento.”. O link “Leia a história
+completa” abre `historia.html` na mesma aba. As duas páginas usam a mesma imagem,
+`assets/img1.jpeg`, com o enquadramento completo. As variantes AVIF/WebP são geradas por
+`python scripts/prepare-story-images.py`, com Pillow, e registradas em
+`docs/imagens-historia.json`. Os originais permanecem intactos.
+
+Edite o resumo em `src/index.template.html` e a narrativa completa em
+`src/historia.template.html`. O build gera todas as páginas HTML na raiz e em `dist/`; inclua os HTMLs gerados no commit quando forem atualizados.
+Os marcadores `siteHeader` e `siteFooter` da história recebem o cabeçalho e rodapé
+do template principal, com as âncoras apontando de volta à home. Os links de
+pedidos continuam vindo de `site.config.json`. A história possui título,
+descrição, canonical e imagem de compartilhamento próprios.
 
 ## Coleção no mobile
 
@@ -91,18 +110,18 @@ rápidos nos controles, larguras diferentes e movimento reduzido.
 
 ## Review do especialista
 
-A seção após a coleção apresenta o vídeo fornecido de Murilo Fazolin. Em desktop,
+A página `review.html` apresenta o vídeo fornecido de Murilo Fazolin. Em desktop,
 o player vertical fica ao lado do resumo; até 760 px, a ordem é título, vídeo e
 texto. O player nativo tem controles, tela cheia e legendas em português,
 sem autoplay e com `preload="none"`: o MP4 é solicitado ao iniciar a reprodução.
 
 - `assets/review-murilo-fazolin.mp4`: versão H.264/AAC, 480 × 854 px, cerca de 19 MB.
-- `assets/review-murilo-fazolin-capa.webp`: quadro do próprio vídeo, sem recorte.
+- `assets/review-murilo-fazolin-capa.webp`: capa oficial fornecida em ssets/capa-video.jpeg, otimizada sem recorte.
 - `assets/review-murilo-fazolin.pt-BR.vtt`: legendas editáveis com marcação temporal.
 - `scripts/prepare-review.py`: refaz MP4 e capa com FFmpeg (ou imageio-ffmpeg) e Pillow;
   essas ferramentas são opcionais e não são necessárias para rodar ou publicar.
 
-O vídeo e sua capa incluem a logo oficial `docs/referencias/marca-original.png`,
+O vídeo inclui a logo oficial `docs/referencias/marca-original.png`,
 um PNG RGBA com transparência, no canto inferior direito. A marca-d'água tem 84 px
 de largura no vídeo original, opacidade de 32%, margem direita de 16 px e margem
 inferior de 64 px para dar espaço aos controles. Ela é incorporada ao MP4 e aparece
@@ -142,3 +161,27 @@ Para **GitHub Pages publicando a raiz da branch**: execute `npm.cmd run check` e
 Para outra hospedagem estática ou um workflow que publique artefatos: use somente o conteúdo de `dist/`. Não há backend nem banco de dados. Após cada atualização, envie as alterações ao repositório para atualizar o site público.
 
 Antes da publicação, conclua a inspeção visual real em desktop e celular descrita em `docs/VALIDACAO.md`. O controle de navegador disponível nesta sessão foi interrompido pela ferramenta.
+
+## Navegação entre páginas
+
+A home contém somente a apresentação de Leandro e a seção Negroni artesanal.
+“Quero meu Negroni” abre a coleção na mesma aba. Os pedidos da coleção continuam
+apontando para o WhatsApp oficial.
+
+| Página | Fonte para editar |
+| --- | --- |
+| `index.html` — início | `src/index.template.html` |
+| `historia.html` — história completa | `src/historia.template.html` |
+| `rotulo.html` — por trás do rótulo | `src/rotulo.template.html` |
+| `colecao.html` — produtos | `src/colecao.template.html` |
+| `review.html` — especialista | `src/review.template.html` |
+| `presentes.html` — para marcar a ocasião | `src/presentes.template.html` |
+| `ritual.html` — como servir | `src/ritual.template.html` |
+
+O cabeçalho e rodapé são compartilhados a partir de `src/index.template.html`.
+O menu identifica a página atual e vira um menu expansível até 1100 px.
+Cada página carrega apenas seu próprio script de interação, além de `site.js`.
+Estilos continuam em `styles.css`. Execute `npm.cmd run check` e
+`npm.cmd run build` após editar. Inclua todos os HTMLs gerados alterados no commit.
+
+A capa oficial pode ser regenerada separadamente com python scripts/prepare-review-poster.py. O original ssets/capa-video.jpeg permanece preservado.

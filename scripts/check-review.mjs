@@ -4,10 +4,9 @@ import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import path from 'node:path';
 
-export async function checkReview(html,out,root) {
+export async function checkReview(html,out,root,pages) {
   const section=html.match(/<section class="expert-review section"[\s\S]*?<\/section>/)?.[0];
   assert(section,'Review ausente');
-  assert(html.indexOf('id="review"')>html.indexOf('id="negronis"')&&html.indexOf('id="review"')<html.indexOf('id="presentes"'));
   const video=section.match(/<video\b[^>]*>/)?.[0];
   assert(video?.includes('controls')&&video.includes('playsinline')&&video.includes('preload="none"'));
   assert(!/\b(autoplay|muted|loop)\b/.test(video),'A reprodução deve depender do visitante');
@@ -42,6 +41,12 @@ export async function checkReview(html,out,root) {
       server.once('exit',code=>{clearTimeout(timeout);reject(new Error(`Servidor encerrou: ${code}`));});
     });
     const request=(file,options={})=>fetch(`${base}/${file}`,{...options,signal:AbortSignal.timeout(10000)});
+    for(const [name,expected] of Object.entries(pages)) {
+      const response=await request(name);
+      assert.equal(response.status,200,`Página indisponível: ${name}`);
+      assert.match(response.headers.get('content-type'),/^text\/html/);
+      assert.equal(await response.text(),expected);
+    }
     const head=await request(source,{method:'HEAD'});
     assert.equal(head.status,200);assert.equal(head.headers.get('content-type'),'video/mp4');assert.equal(Number(head.headers.get('content-length')),size);
     for(const [range,start,end] of [['bytes=0-1023',0,1023],['bytes=100-',100,size-1],['bytes=-1024',size-1024,size-1]]) {

@@ -10,7 +10,8 @@
 
 # Arquivos e validação
 
-- Edite conteúdo e estrutura em `src/index.template.html`. O `index.html` da raiz e `dist/` são gerados pelo build.
+- Edite cada página em `src/<pagina>.template.html` (index, historia, rotulo, colecao, review, presentes e ritual). Os HTMLs da raiz e `dist/` são gerados pelo build; inclua todos os HTMLs gerados alterados no commit.
+- A história completa fica em `src/historia.template.html`; `historia.html` na raiz e em `dist/` também é gerado e deve acompanhar o commit. Cabeçalho e rodapé são compartilhados a partir do template principal.
 - `site.config.json` centraliza o domínio e os links oficiais. Preserve `CNAME` e a publicação pela branch `main`.
 - Use `npm.cmd run dev` para prévia local, normalmente em `http://127.0.0.1:4173`.
 - Antes de entregar mudanças de código, execute as verificações apropriadas (`npm.cmd run check`) e gere o build (`npm.cmd run build`), incluindo o `index.html` gerado no commit quando mudar.

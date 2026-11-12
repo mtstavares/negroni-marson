@@ -33,12 +33,5 @@ subprocess.run([
 ], check=True)
 # Keep below Cloudflare Pages' 25 MiB per-file limit.
 assert (ASSETS / 'review-murilo-fazolin.mp4').stat().st_size < 25 * 1024 * 1024
-poster = ROOT / 'tmp' / 'review-poster.png'
-poster.parent.mkdir(exist_ok=True)
-subprocess.run([
-    ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-ss', '15',
-    '-i', str(ASSETS / 'review-murilo-fazolin.mp4'), '-frames:v', '1', str(poster)
-], check=True)
-with Image.open(poster) as image:
-    image.convert('RGB').save(ASSETS / 'review-murilo-fazolin-capa.webp', quality=84, method=6)
-print('Review MP4 e capa WebP preparados; original preservado.')
+import runpy
+runpy.run_path(str(ROOT / 'scripts' / 'prepare-review-poster.py'))
