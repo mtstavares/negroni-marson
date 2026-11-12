@@ -202,11 +202,12 @@ a:hover {
   margin:auto;
   min-height:710px;
   display:grid;
-  grid-template-columns:1.08fr 1fr;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);
   align-items:center;
   padding:40px 0 80px
 }
 .hero-content {
+  min-width:0;
   z-index:1;
   padding-bottom:15px
 }
@@ -1873,8 +1874,11 @@ body .hero-specs small {font-size:13px;line-height:1.6;}
 
 /* Keep navigation visible and anchor destinations clear of the header. */
 html {scroll-padding-top:132px;}
-.header {position:sticky;top:0;z-index:50;background:var(--ink);}
-.header::before {content:"";position:absolute;inset:0 calc((100% - 100vw)/2);background:var(--ink);z-index:-1;pointer-events:none;}
+.header {position:sticky;top:0;z-index:50;background:var(--ink);width:100%;padding-inline:calc((100% - var(--page))/2);}
+.hero-title em {white-space:normal;}
+.hero-specs>span {min-width:0;}
+.footer-links {min-width:0;}
+.footer-links .social-label {overflow-wrap:anywhere;}
 .hero-label {font-size:13px;}
 .footer-links a {gap:12px;}
 .footer-links .social-icon {flex:0 0 20px;color:var(--gold);}
