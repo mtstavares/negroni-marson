@@ -17,30 +17,46 @@ export async function build(){
     if(['wa.me','api.whatsapp.com'].includes(url.hostname)) url.searchParams.set('text',config.orderMessages[key]);
     return url.href;
   };
-  let html=await readFile(path.join(root,'src/index.template.html'),'utf8');
-  html=html.replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
+  const template=await readFile(path.join(root,'src/index.template.html'),'utf8');
+  const header=template.match(/<header class="header">[\s\S]*?<\/header>/)?.[0];
+  const footer=template.match(/<footer class="footer">[\s\S]*?<\/footer>/)?.[0];
+  const mobileOrder=template.match(/<div class="mobile-order">[\s\S]*?<\/div>/)?.[0];
+  if(!header||!footer||!mobileOrder) throw new Error('Cabeçalho ou rodapé compartilhado ausente.');
+  const homeLinks=markup=>markup.replace(/href="#([^"]+)"/g,'href="index.html#$1"');
+  const render=(source,pagePath='',socialImage='assets/social.jpg')=>{
+    const canonical=siteUrl?`${siteUrl}/${pagePath}`:'';
+    const result=source.replaceAll('{{siteHeader}}',homeLinks(header))
+    .replaceAll('{{siteFooter}}',homeLinks(footer+mobileOrder))
+    .replace(/\{\{order:([^}]+)\}\}/g,(_,key)=>escape(order(key)))
     .replaceAll('{{instagramUrl}}',escape(config.instagramUrl))
     .replaceAll('{{reviewerInstagramUrl}}',escape(config.reviewerInstagramUrl))
     .replaceAll('{{catalogUrl}}',escape(config.catalogUrl))
     .replaceAll('{{facebookUrl}}',escape(config.facebookUrl))
     .replaceAll('{{whatsappDisplay}}',escape(config.whatsappDisplay))
-    .replaceAll('{{socialImage}}',escape(siteUrl?`${siteUrl}/assets/social.jpg`:'assets/social.jpg'))
-    .replaceAll('{{canonical}}',siteUrl?`<link rel="canonical" href="${escape(siteUrl)}/"><meta property="og:url" content="${escape(siteUrl)}/">`:'');
-  if(html.includes('{{')) throw new Error('Placeholder pendente no HTML.');
+    .replaceAll('{{socialImage}}',escape(siteUrl?`${siteUrl}/${socialImage}`:socialImage))
+    .replaceAll('{{canonical}}',canonical?`<link rel="canonical" href="${escape(canonical)}"><meta property="og:url" content="${escape(canonical)}">`:'');
+    if(result.includes('{{')) throw new Error(`Placeholder pendente em ${pagePath||'index.html'}.`);
+    return result;
+  };
+  let html=render(template);
+  let storyHtml=render(await readFile(path.join(root,'src/historia.template.html'),'utf8'),'historia.html','assets/img2.jpeg');
   // Give returning GitHub Pages visitors the matching assets after each edit.
-  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets/review-murilo-fazolin.mp4','assets/review-murilo-fazolin-capa.webp','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
+  for(const file of ['styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets/review-murilo-fazolin.mp4','assets/review-murilo-fazolin-capa.webp','assets/favicon-marson.ico','assets/favicon-marson-32.png','assets/apple-touch-icon-marson.png']) {
     const bytes=await readFile(path.join(root,file));
     const content=/\.(css|js)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes;
     const hash=createHash('sha256').update(content).digest('hex').slice(0,10);
     html=html.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
+    storyHtml=storyHtml.replaceAll(`"${file}"`,`"${file}?v=${hash}"`);
   }
   const out=path.join(root,'dist');
   await mkdir(out,{recursive:true});
-  await writeFile(path.join(out,'index.html'),html);
   // GitHub Pages can serve the repository root directly. Keep that entry point
   // valid static HTML, including working contacts before any JavaScript runs.
-  const entry=path.join(root,'index.html');
-  if(await readFile(entry,'utf8').catch(()=>'') !== html) await writeFile(entry,html);
+  for(const [name,content] of [['index.html',html],['historia.html',storyHtml]]) {
+    await writeFile(path.join(out,name),content);
+    const entry=path.join(root,name);
+    if(await readFile(entry,'utf8').catch(()=>'') !== content) await writeFile(entry,content);
+  }
   await writeFile(path.join(out,'.nojekyll'),'');
   // Pages stores the custom domain in the source root. Preserve it when
   // publishing dist as well, and clear an old generated copy after removal.
@@ -52,7 +68,7 @@ export async function build(){
   else await unlink(path.join(out,'CNAME')).catch(error=>{
     if(error.code!=='ENOENT') throw error;
   });
-  for(const file of ['styles.css','app.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets']) await cp(path.join(root,file),path.join(out,file),{
+  for(const file of ['styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','assets']) await cp(path.join(root,file),path.join(out,file),{
     recursive:true,
     // Keep supplied Instagram captures in the workspace; ship optimized assets.
     filter:source=>!/^WhatsApp (Image|Video) /.test(path.basename(source))
@@ -64,7 +80,7 @@ export async function build(){
     if(/^WhatsApp (Image|Video) /.test(name) && /\.(jpe?g|mp4)$/i.test(name)) await unlink(path.join(assetOutput,name));
   }
   if(siteUrl) await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\n`);
-  return {out,config,html};
+  return {out,config,html,storyHtml};
 }
 if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const {out,config}=await build();

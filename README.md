@@ -38,9 +38,12 @@ Execute novamente `npm.cmd run build`. O comando atualiza `dist/` e o **`index.h
 | Arquivo | Uso |
 | --- | --- |
 | `src/index.template.html` | Fonte do conteúdo e estrutura; marcadores são resolvidos no build |
+| `src/historia.template.html` | Texto completo da história de Leandro e da marca |
+| `historia.html` | Página da história gerada e versionada para publicar pela raiz |
 | `index.html` | HTML final gerado e versionado, pronto para servir pela raiz do GitHub Pages |
 | `styles.css` | Identidade visual, espaçamentos e versões responsivas |
 | `app.js` | Seleção da caixa presente, imagem e mensagem do pedido |
+| `site.js` | Menu mobile e ano do rodapé, compartilhados pelas duas páginas |
 | `label-story.js` | Animação dos cinco elementos do rótulo, pausa e preferências de movimento |
 | `ritual-carousel.js` | Carrossel manual do ritual: etapas, gestos, teclado e destaques na arte |
 | `collection-carousel.js` | Coleção com rolagem contínua para os dois lados no mobile |
@@ -75,6 +78,23 @@ No mobile, o menu do cabeçalho dá acesso às três seções principais e funci
 O “Ritual Marson” usa uma única arte original em quatro etapas: copo, gelo, laranja e apreciação. Os botões e as setas sincronizam o texto externo, a legenda sobreposta, o contador e os destaques SVG; no celular também é possível deslizar horizontalmente. Não há avanço automático. As transições têm 500–600 ms e respeitam movimento reduzido. Os textos ficam nos quatro itens de `src/index.template.html`, usados também pelo JavaScript. Sem JavaScript, a arte e as quatro instruções continuam visíveis. Os pontos do destaque são definidos no SVG e o zoom, nos seletores `data-focus` do CSS. `npm.cmd run check` verifica as interações e o fallback.
 
 Preços, frete, prazos, estoque, formas de pagamento e depoimentos só devem entrar após confirmação. As informações técnicas atuais foram lidas nos rótulos das artes oficiais, conforme o relatório de análise.
+
+## Apresentação do fundador e história
+
+A primeira seção da home apresenta Leandro Marson com `assets/img1.jpeg`, seguida
+da abertura original “Um clássico. O seu momento.”. O link “Leia a história
+completa” abre `historia.html` na mesma aba. A página completa usa `assets/img2.jpeg`
+sem recortar sua moldura ou textos. As variantes AVIF/WebP são geradas por
+`python scripts/prepare-story-images.py`, com Pillow, e registradas em
+`docs/imagens-historia.json`. Os originais permanecem intactos.
+
+Edite o resumo em `src/index.template.html` e a narrativa completa em
+`src/historia.template.html`. O build gera **index.html e historia.html**, tanto
+na raiz quanto em `dist/`; inclua os dois no commit quando forem atualizados.
+Os marcadores `siteHeader` e `siteFooter` da história recebem o cabeçalho e rodapé
+do template principal, com as âncoras apontando de volta à home. Os links de
+pedidos continuam vindo de `site.config.json`. A história possui título,
+descrição, canonical e imagem de compartilhamento próprios.
 
 ## Coleção no mobile
 

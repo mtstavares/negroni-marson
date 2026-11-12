@@ -1,5 +1,22 @@
 # Validação da entrega
 
+## Atualização: apresentação de Leandro e história — 12/11/2026
+
+- A apresentação com `img1.jpeg` vem antes da abertura original, que foi mantida.
+  A nova abertura usa o H1; o título anterior mantém a aparência como H2.
+- `historia.html` contém a narrativa completa, `img2.jpeg` sem cortes, links para
+  voltar ao início e à coleção, contatos oficiais e metadados próprios. A fonte
+  é `src/historia.template.html`; ambas as páginas são geradas na raiz e em dist.
+- A imagem da nova abertura tem 53.635 bytes em AVIF de 640 px. As variantes
+  preservam o enquadramento e não ampliam os originais. O preload foi transferido
+  para a nova primeira imagem; a garrafa da abertura seguinte usa lazy loading.
+- O menu e o ano do rodapé foram extraídos para `site.js`, compartilhado pelas
+  duas páginas. O controlador da caixa presente fica somente na home.
+- As verificações cobrem o build das duas páginas, links entre elas, metadados,
+  imagens, pedidos, navegação e as interações existentes. A consulta ao navegador
+  retornou “The browser access host is unavailable”; a inspeção visual real em
+  desktop e mobile permanece pendente.
+
 ## Atualização: review e coleção mobile — 10/11/2026
 
 - A seção “Review do especialista” usa o MP4 completo fornecido, com capa extraída

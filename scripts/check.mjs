@@ -7,8 +7,10 @@ import {createStoryPlayback,mountLabelExplorer} from '../label-story.js';
 import {checkRitual} from './check-ritual.mjs';
 import {checkReview} from './check-review.mjs';
 import {checkCollection} from './check-collection.mjs';
+import {checkStory} from './check-story.mjs';
 
-const {html,config,out}=await build();
+const {html,storyHtml,config,out}=await build();
+await checkStory({html,storyHtml,config,out,root});
 assert.equal(await readFile(path.join(root,'index.html'),'utf8'),html,'A raiz do GitHub Pages deve conter o HTML final');
 assert(!html.includes('{{'),'GitHub Pages não deve receber marcadores de template');
 const sourceCname=await readFile(path.join(root,'CNAME'),'utf8').catch(error=>{
@@ -211,7 +213,7 @@ menu.contains=target=>target===menu||target===menuSummary||menuLinks.includes(ta
 elements.set('#mobile-navigation',menu);
 const documentEvents=new Map();
 const menuDocument={...document,addEventListener:(name,callback)=>documentEvents.set(name,callback)};
-vm.runInNewContext(await readFile(path.join(root,'app.js'),'utf8'),{document:menuDocument,Date});
+vm.runInNewContext(await readFile(path.join(root,'site.js'),'utf8'),{document:menuDocument,Date});
 menu.open=true;menuLinks[2].fire('click');assert.equal(menu.open,false);
 menu.open=true;documentEvents.get('click')({target:menuSummary});assert.equal(menu.open,true);
 documentEvents.get('click')({target:{}});assert.equal(menu.open,false);

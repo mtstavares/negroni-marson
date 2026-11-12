@@ -44,7 +44,7 @@ server.listen(port,'127.0.0.1',()=>console.log(`Local: http://127.0.0.1:${server
 server.on('error',error=>{console.error(error.message);process.exit(1);});
 if(!production){
   let debounce;
-  for(const file of ['src/index.template.html','styles.css','app.js','label-story.js','ritual-carousel.js','collection-carousel.js','site.config.json','assets']) watch(path.join(root,file),()=>{
+  for(const file of ['src/index.template.html','src/historia.template.html','styles.css','app.js','site.js','label-story.js','ritual-carousel.js','collection-carousel.js','site.config.json','assets']) watch(path.join(root,file),()=>{
     clearTimeout(debounce);debounce=setTimeout(()=>build().then(()=>console.log('Atualizado. Recarregue a página.')).catch(error=>console.error(error.message)),120);
   });
 }

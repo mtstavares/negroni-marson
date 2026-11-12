@@ -1,0 +1,92 @@
+{
+  "leandro-apresentacao": {
+    "source": "img1.jpeg",
+    "original": [
+      1129,
+      1393
+    ],
+    "files": [
+      {
+        "path": "assets/leandro-apresentacao-320.avif",
+        "width": 320,
+        "height": 395,
+        "bytes": 18802
+      },
+      {
+        "path": "assets/leandro-apresentacao-320.webp",
+        "width": 320,
+        "height": 395,
+        "bytes": 26416
+      },
+      {
+        "path": "assets/leandro-apresentacao-640.avif",
+        "width": 640,
+        "height": 790,
+        "bytes": 53635
+      },
+      {
+        "path": "assets/leandro-apresentacao-640.webp",
+        "width": 640,
+        "height": 790,
+        "bytes": 76068
+      },
+      {
+        "path": "assets/leandro-apresentacao-960.avif",
+        "width": 960,
+        "height": 1184,
+        "bytes": 95168
+      },
+      {
+        "path": "assets/leandro-apresentacao-960.webp",
+        "width": 960,
+        "height": 1184,
+        "bytes": 130664
+      }
+    ]
+  },
+  "leandro-historia": {
+    "source": "img2.jpeg",
+    "original": [
+      1086,
+      1448
+    ],
+    "files": [
+      {
+        "path": "assets/leandro-historia-320.avif",
+        "width": 320,
+        "height": 427,
+        "bytes": 23086
+      },
+      {
+        "path": "assets/leandro-historia-320.webp",
+        "width": 320,
+        "height": 427,
+        "bytes": 32814
+      },
+      {
+        "path": "assets/leandro-historia-640.avif",
+        "width": 640,
+        "height": 853,
+        "bytes": 69033
+      },
+      {
+        "path": "assets/leandro-historia-640.webp",
+        "width": 640,
+        "height": 853,
+        "bytes": 94718
+      },
+      {
+        "path": "assets/leandro-historia-960.avif",
+        "width": 960,
+        "height": 1280,
+        "bytes": 125819
+      },
+      {
+        "path": "assets/leandro-historia-960.webp",
+        "width": 960,
+        "height": 1280,
+        "bytes": 169824
+      }
+    ]
+  }
+}
