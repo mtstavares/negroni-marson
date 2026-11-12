@@ -802,20 +802,9 @@ h1 em,.hero-title em {
   gap:30px;
   padding-bottom:44px
 }
-.footer-wordmark {
-  font-family:var(--serif);
-  font-size:39px;
-  letter-spacing:2px;
-  line-height:1;
-  color:var(--gold)
-}
-.footer-wordmark span {
-  font-family:var(--sans);
-  display:block;
-  font-size:8px;
-  letter-spacing:3.2px;
-  line-height:2.5
-}
+.footer-logo {display:block;flex-shrink:0;width:120px;}
+.footer-logo picture,.footer-logo img {display:block;width:100%;height:auto;}
+.footer-logo img {border-radius:50%;}
 .footer-main>p {
   font-family:var(--serif);
   font-size:18px;
@@ -1257,9 +1246,7 @@ h1 em,.hero-title em {
     row-gap:30px;
     padding-bottom:28px
   }
-  .footer-wordmark {
-    font-size:33px
-  }
+  .footer-logo {width:96px;}
   .footer-main>p {
     font-size:16px
   }
