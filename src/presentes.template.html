@@ -46,10 +46,11 @@
         <fieldset class="gift-selector"><legend>Escolha a versão</legend>
           <div class="radio-options"><label><input type="radio" name="gift" value="classico" checked><span>Clássico</span></label><label><input type="radio" name="gift" value="defumado"><span>Defumado</span></label></div>
         </fieldset>
+        <div class="gift-price" aria-live="polite" aria-atomic="true"><span class="price-seal" id="gift-price" data-classico="R$ 149,90" data-defumado="R$ 159,90">R$ 149,90</span><span>Negroni + caixa para presente</span></div>
         <a id="gift-order" class="button button-dark" href="{{order:presente-classico}}" data-classico="{{order:presente-classico}}" data-defumado="{{order:presente-defumado}}" target="_blank" rel="noopener noreferrer">Pedir caixa com Clássico <span aria-hidden="true">↗</span></a>
         <p class="gift-status" id="gift-status" role="status">Caixa Presente + Negroni Clássico</p>
         <button type="button" class="gift-retry" id="gift-image-retry" hidden>Tentar carregar a imagem novamente <span aria-hidden="true">↻</span></button>
-        <noscript><p>Para a outra versão: <a href="{{order:presente-defumado}}" target="_blank" rel="noopener noreferrer">pedir caixa com Defumado ↗</a>.</p></noscript>
+        <noscript><p>Defumado + caixa para presente: R$ 159,90. <a href="{{order:presente-defumado}}" target="_blank" rel="noopener noreferrer">Pedir caixa com Defumado ↗</a>.</p></noscript>
       </div>
     </section>
   </main>

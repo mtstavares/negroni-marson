@@ -409,6 +409,14 @@ h1 em,.hero-title em {
 .product-visual.smoked {
   background:radial-gradient(ellipse at 50% 65%,#3d2e2155 0%,#151511 70%)
 }
+.price-seal {display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border:1px solid #8b7045;border-radius:6px;background:var(--ink);color:var(--gold);font-size:15px;font-weight:500;line-height:1.4;letter-spacing:.02em;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.product-visual>.price-seal {position:absolute;right:16px;bottom:50px;z-index:1;}
+.gift-price {display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:0 0 24px;}
+.gift-price>.price-seal {min-width:110px;}
+.gift-price>span:last-child {font-size:12px;color:#575348;}
+@media(max-width:760px) {
+  .product-visual>.price-seal {right:12px;bottom:44px;font-size:14px;padding:7px 10px;}
+}
 .product-visual img {
   height:390px;
   width:80%;

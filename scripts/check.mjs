@@ -62,6 +62,7 @@ await checkReview(pages['review.html'],out,root,pages);
 const elements=new Map();
 for(const id of ['#gift-image','#gift-order','#gift-status','#year','#gift-scene','#gift-bottle-overlay','#gift-bottle-avif','#gift-image-retry']) elements.set(id,{dataset:{classico:'https://wa.me/5519999060077?text=classico',defumado:'https://wa.me/5519999060077?text=defumado'},attrs:{},setAttribute(name,value){this.attrs[name]=value;},removeAttribute(name){delete this[name];},addEventListener(name,callback){this[name]=callback;},replaceChildren(node){this.label=node.textContent;},append(){}});
 const background=elements.get('#gift-image');
+elements.set('#gift-price',{dataset:{classico:'R$ 149,90',defumado:'R$ 159,90'},setAttribute(name,value){this[name]=value;}});
 background.src='assets/presente-novo-960.webp';
 background.srcset='assets/presente-novo-640.webp 640w, assets/presente-novo-1254.webp 1254w';
 elements.get('#gift-scene').dataset.version='classico';
@@ -96,6 +97,7 @@ for(const input of [inputs[1],inputs[0]]){
   assert.equal(background.srcset,'assets/presente-novo-640.webp 640w, assets/presente-novo-1254.webp 1254w');
   assert.equal(elements.get('#gift-scene').dataset.version,input.value);
   assert.equal(elements.get('#gift-order').href,elements.get('#gift-order').dataset[input.value]);
+  assert.equal(elements.get('#gift-price').textContent,elements.get('#gift-price').dataset[input.value],'O preço deve acompanhar a versão do pedido');
   assert(elements.get('#gift-image').alt.includes(input.value==='classico'?'Clássico':'Defumado'));
   assert(elements.get('#gift-order').label.includes(input.value==='classico'?'Clássico':'Defumado'));
 }

@@ -5,6 +5,7 @@ const giftAvifSource = document.querySelector('#gift-bottle-avif');
 const giftOrder = document.querySelector('#gift-order');
 const giftStatus = document.querySelector('#gift-status');
 const giftRetry = document.querySelector('#gift-image-retry');
+const giftPrice = document.querySelector('#gift-price');
 let giftSelection = 0;
 let giftSelectedVersion = giftScene.dataset.version || 'classico';
 
@@ -33,6 +34,14 @@ async function selectGift(version) {
     giftSelectedVersion = version;
     const selection = ++giftSelection;
     const title = version === 'defumado' ? 'Defumado' : 'Clássico';
+    if (giftPrice) {
+      giftPrice.textContent = giftPrice.dataset[version];
+      giftPrice.setAttribute('aria-label', `Negroni ${title} + caixa para presente: ${giftPrice.dataset[version]}`);
+      if (typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        giftPrice.getAnimations?.().forEach(animation => animation.cancel());
+        giftPrice.animate?.([{opacity: .5}, {opacity: 1}], {duration: 250, easing: 'ease-out'});
+      }
+    }
     if (giftRetry) giftRetry.hidden = true;
     giftOrder.href = giftOrder.dataset[version];
     giftOrder.replaceChildren(document.createTextNode(`Pedir caixa com ${title} `));
