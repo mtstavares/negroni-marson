@@ -228,7 +228,7 @@ assert.equal(menu.open,false);assert(menuSummary.focused);assert(escapePrevented
 
 assert.match(html,/<link rel="preload"[^>]+type="image\/avif"/);
 for(const name of ['classico-oficial-1024.avif','defumado-oficial-1024.avif','presente-novo-1254.avif','presente-defumado-1216.avif','rotulo-oficial-detalhe-460.avif','rotulo-oficial-completo-900.webp']) await access(path.join(out,'assets',name));
-const deferredTag=pages['presentes.html'].match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
+const deferredTag=pages['colecao.html'].match(/<img[^>]*id="gift-bottle-overlay"[^>]*>/)?.[0];
 assert(deferredTag && !/\ssrc=/.test(deferredTag),'A foto do Defumado deve ser solicitada somente após seleção');
 assert((await stat(path.join(out,'assets/favicon-marson.ico'))).size<20_000,'Favicon desnecessariamente pesado');
 

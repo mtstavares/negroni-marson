@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0B0B09">
   <title>A coleção de Negroni Marson | Negroni Marson</title>
-  <meta name="description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml, prontas para servir.">
+  <meta name="description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml e opções com caixa para presente.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Negroni Marson">
   <meta property="og:title" content="A coleção de Negroni Marson">
-  <meta property="og:description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml, prontas para servir.">
+  <meta property="og:description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml e opções com caixa para presente.">
   <meta property="og:image" content="{{socialImage}}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Negroni Marson artesanal: um clássico, o seu momento">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="A coleção de Negroni Marson">
-  <meta name="twitter:description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml, prontas para servir.">
+  <meta name="twitter:description" content="Conheça o Negroni Marson Clássico e o Defumado na lenha de laranjeira. Duas versões artesanais em garrafas de 500 ml e opções com caixa para presente.">
   <meta name="twitter:image" content="{{socialImage}}">
   {{canonical}}
   <link rel="icon" href="assets/favicon-marson.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
@@ -25,6 +25,7 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon-marson.png" sizes="180x180">
   <link rel="stylesheet" href="styles.css">
   <script src="site.js" defer></script>
+  <script src="app.js" defer></script>
   <script src="collection-carousel.js" type="module"></script>
 </head>
 <body class="content-page page-colecao">
@@ -68,6 +69,27 @@
         </div>
       </div>
       <p class="collection-note">Escolha o seu. Consulte disponibilidade e entrega no atendimento oficial.</p>
+    </section>
+    <section class="gift-section" id="presentes" aria-labelledby="gift-title">
+      <div class="gift-photo">
+        <div class="gift-scene" id="gift-scene" data-version="classico">
+          <picture><source type="image/avif" srcset="assets/presente-novo-480.avif 480w, assets/presente-novo-640.avif 640w, assets/presente-novo-960.avif 960w, assets/presente-novo-1254.avif 1216w" sizes="(max-width: 760px) 100vw, 50vw"><img id="gift-image" class="gift-background" sizes="(max-width: 760px) 100vw, 50vw" width="1254" height="1254" loading="lazy" decoding="async" alt="Caixa presente Negroni Marson aberta e fechada, com uma garrafa do Clássico e cenário com luzes quentes" src="assets/presente-novo-960.webp" srcset="assets/presente-novo-480.webp 480w, assets/presente-novo-640.webp 640w, assets/presente-novo-960.webp 960w, assets/presente-novo-1254.webp 1216w"></picture>
+          <div class="gift-bottle-layer" aria-hidden="true"><picture><source type="image/avif" id="gift-bottle-avif" media="not all" srcset="assets/presente-defumado-480.avif 480w, assets/presente-defumado-640.avif 640w, assets/presente-defumado-960.avif 960w, assets/presente-defumado-1216.avif 1216w" sizes="(max-width: 760px) 100vw, 50vw"><img id="gift-bottle-overlay" class="gift-bottle-overlay" sizes="(max-width: 760px) 100vw, 50vw" width="1216" height="1216" decoding="async" alt="" aria-hidden="true" data-src="assets/presente-defumado-960.webp" data-srcset="assets/presente-defumado-480.webp 480w, assets/presente-defumado-640.webp 640w, assets/presente-defumado-960.webp 960w, assets/presente-defumado-1216.webp 1216w"></picture></div>
+        </div>
+      </div>
+      <div class="gift-content">
+        <p class="eyebrow">Para marcar a ocasião</p>
+        <h2 id="gift-title">Alguns presentes<br><em>viram momentos.</em></h2>
+        <p>O Negroni Marson também tem uma apresentação para presentear. A caixa leva a identidade da marca por dentro e por fora, acompanhada da versão que você escolher.</p>
+        <fieldset class="gift-selector"><legend>Escolha a versão</legend>
+          <div class="radio-options"><label><input type="radio" name="gift" value="classico" checked><span>Clássico</span></label><label><input type="radio" name="gift" value="defumado"><span>Defumado</span></label></div>
+        </fieldset>
+        <div class="gift-price" aria-live="polite" aria-atomic="true"><span class="price-seal" id="gift-price" data-classico="R$ 149,90" data-defumado="R$ 159,90">R$ 149,90</span><span>Negroni + caixa para presente</span></div>
+        <a id="gift-order" class="button button-dark" href="{{order:presente-classico}}" data-classico="{{order:presente-classico}}" data-defumado="{{order:presente-defumado}}" target="_blank" rel="noopener noreferrer">Pedir caixa com Clássico <span aria-hidden="true">↗</span></a>
+        <p class="gift-status" id="gift-status" role="status">Caixa Presente + Negroni Clássico</p>
+        <button type="button" class="gift-retry" id="gift-image-retry" hidden>Tentar carregar a imagem novamente <span aria-hidden="true">↻</span></button>
+        <noscript><p>Defumado + caixa para presente: R$ 159,90. <a href="{{order:presente-defumado}}" target="_blank" rel="noopener noreferrer">Pedir caixa com Defumado ↗</a>.</p></noscript>
+      </div>
     </section>
   </main>
   {{siteFooter}}

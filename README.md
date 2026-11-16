@@ -185,3 +185,7 @@ Estilos continuam em `styles.css`. Execute `npm.cmd run check` e
 `npm.cmd run build` após editar. Inclua todos os HTMLs gerados alterados no commit.
 
 A capa oficial pode ser regenerada separadamente com python scripts/prepare-review-poster.py. O original ssets/capa-video.jpeg permanece preservado.
+
+## Produtos e presentes na mesma página
+
+Edite as garrafas e a caixa presente em `src/colecao.template.html`. O menu Produtos abre essa página; as caixas ficam abaixo da coleção. `presentes.html` redireciona para `colecao.html#presentes` para preservar links antigos. A home mantém somente o link da história e o botão principal de acesso à coleção.

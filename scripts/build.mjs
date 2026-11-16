@@ -25,7 +25,7 @@ export async function build(){
   if(!header||!footer||!mobileOrder) throw new Error('Cabeçalho ou rodapé compartilhado ausente.');
   const homeLinks=markup=>markup.replace(/href="#([^"]+)"/g,'href="index.html#$1"');
   const render=(source,pagePath='',socialImage='assets/social.jpg')=>{
-    const canonical=siteUrl?`${siteUrl}/${pagePath}`:'';
+    const canonical=siteUrl?`${siteUrl}/${pagePath==='presentes.html'?'colecao.html':pagePath}`:'';
     const activePage=pagePath||'index.html';
     const pageHeader=homeLinks(header).replaceAll(`href="${activePage}"`,`href="${activePage}" aria-current="page"`);
     const result=source.replaceAll('{{siteHeader}}',pageHeader)
