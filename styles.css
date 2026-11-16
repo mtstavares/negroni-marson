@@ -455,6 +455,10 @@ h1 em,.hero-title em {
 .product-copy {
   padding:27px 0 0
 }
+.product-order {margin-top:22px;min-height:48px;min-width:200px;max-width:100%;border-radius:4px;font-size:13px;font-weight:600;justify-content:space-between;}
+@media(max-width:760px) {
+  .product-order {width:100%;}
+}
 .product-copy>.eyebrow {
   font-size:9px;
   letter-spacing:2px
