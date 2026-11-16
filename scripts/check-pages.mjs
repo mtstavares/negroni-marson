@@ -4,7 +4,7 @@ import path from 'node:path';
 
 export async function checkPages({pages,config,out,root}) {
   const idsFor=html=>[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);
-  const navigation=['index.html','rotulo.html','colecao.html','review.html','presentes.html','ritual.html'];
+  const navigation=['index.html','rotulo.html','colecao.html','review.html','ritual.html'];
   for(const [name,html] of Object.entries(pages)) {
     assert.equal(await readFile(path.join(root,name),'utf8'),html,`${name}: raiz desatualizada`);
     assert(!html.includes('{{'),`${name}: marcador pendente`);
@@ -13,7 +13,7 @@ export async function checkPages({pages,config,out,root}) {
     assert.equal(new Set(ids).size,ids.length,`${name}: IDs duplicados`);
     assert.match(html,/<html lang="pt-BR">/);
     assert.match(html,/<meta name="description" content="[^"]+"/);
-    if(config.siteUrl) assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)?.[1],`${config.siteUrl.replace(/\/$/,'')}/${name==='index.html'?'':name}`);
+    if(config.siteUrl) assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)?.[1],`${config.siteUrl.replace(/\/$/,'')}/${name==='index.html'?'':name==='presentes.html'?'colecao.html':name}`);
     for(const match of html.matchAll(/\b(?:src|href|poster)="([^"]+)"/g)) {
       const url=new URL(match[1].replaceAll('&amp;','&'),`https://local.test/${name}`);
       if(url.origin!=='https://local.test') continue;
@@ -39,17 +39,21 @@ export async function checkPages({pages,config,out,root}) {
       if(navigation.includes(name)) assert(nav.includes(`href="${name}" aria-current="page"`),`${name}: página atual não identificada`);
     }
     // Only load the interaction belonging to the visited page.
-    const controllers={'rotulo.html':'label-story.js','colecao.html':'collection-carousel.js','presentes.html':'app.js','ritual.html':'ritual-carousel.js'};
-    for(const [page,script] of Object.entries(controllers)) assert.equal(html.includes(`src="${script}?v=`),name===page,`${name}: script indevido ou ausente: ${script}`);
+    const controllers=[['rotulo.html','label-story.js'],['colecao.html','collection-carousel.js'],['colecao.html','app.js'],['ritual.html','ritual-carousel.js']];
+    for(const [page,script] of controllers) assert.equal(html.includes(`src="${script}?v=`),name===page,`${name}: script indevido ou ausente: ${script}`);
   }
   const home=pages['index.html'];
   assert.equal((home.match(/<section\b/g)||[]).length,2,'Home deve conter somente fundador e hero');
   assert.match(home,/<a class="button button-gold" href="colecao.html">Quero meu Negroni/);
-  const sections={'rotulo.html':'rotulo','colecao.html':'negronis','review.html':'review','presentes.html':'presentes','ritual.html':'ritual'};
+  const sections={'rotulo.html':'rotulo','colecao.html':'negronis','review.html':'review','ritual.html':'ritual'};
   for(const [name,id] of Object.entries(sections)) {
     assert(pages[name].includes(`id="${id}"`));
     assert(!home.includes(`id="${id}"`),`Seção ${id} ainda está na home`);
-    assert.equal((pages[name].match(/<section\b/g)||[]).length,1);
+    assert.equal((pages[name].match(/<section\b/g)||[]).length,name==='colecao.html'?2:1);
   }
+  assert(pages['colecao.html'].indexOf('id="presentes"')>pages['colecao.html'].indexOf('id="negronis"'));
+  assert.match(pages['presentes.html'], /http-equiv="refresh" content="0; url=colecao.html#presentes"/);
+  assert(!home.includes('Conheça nossos produtos'));
+  assert(!home.includes('class="hero-discover"'));
   console.log('Páginas: 7 HTMLs, navegação desktop/mobile, destinos locais, imagens, metadados e scripts OK.');
 }

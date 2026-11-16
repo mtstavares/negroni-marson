@@ -3,7 +3,7 @@ import {mountCollectionCarousel} from '../collection-carousel.js';
 
 export function checkCollection(html) {
   const markup=html.match(/<section class="collection section"[\s\S]*?<\/section>/)?.[0];
-  const products=[...markup.matchAll(/<article class="product-card">[\s\S]*?<h3>([^<]+)<\/h3>[\s\S]*?<a class="text-link" href="([^"]+)"[\s\S]*?<\/article>/g)];
+  const products=[...markup.matchAll(/<article class="product-card">[\s\S]*?<h3>([^<]+)<\/h3>[\s\S]*?<a class="button button-gold product-order" href="([^"]+)"[\s\S]*?<\/article>/g)];
   assert.equal(products.length,2,'Os dois produtos originais devem permanecer no HTML');
   function node(extra={}) {
     const events=new Map(),classes=new Set();
