@@ -39,7 +39,7 @@ async function selectGift(version) {
       giftPrice.setAttribute('aria-label', `Negroni ${title} + caixa para presente: ${giftPrice.dataset[version]}`);
       if (typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         giftPrice.getAnimations?.().forEach(animation => animation.cancel());
-        giftPrice.animate?.([{opacity: .5}, {opacity: 1}], {duration: 250, easing: 'ease-out'});
+        giftPrice.animate?.([{opacity: .7}, {opacity: 1}], {duration: 450, easing: 'ease-in-out'});
       }
     }
     if (giftRetry) giftRetry.hidden = true;
