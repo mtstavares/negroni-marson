@@ -549,6 +549,24 @@ h1 em,.hero-title em {
   padding:clamp(40px,6vw,96px);
   align-self:center
 }
+.gift-heading {grid-column:1 / -1;padding:0 max(56px,calc((100% - 1280px)/2)) 48px;background:var(--ink);color:var(--cream);text-align:center;}
+.gift-heading>.eyebrow {margin-bottom:24px;}
+.gift-heading h2 {font-size:clamp(36px,3.6vw,54px);letter-spacing:-1.8px;}
+@media(min-width:761px) {
+  .gift-heading h2 br {display:none;}
+  .gift-heading h2 em::before {content:" ";}
+  .gift-section>.gift-content>p:first-child {margin-top:0;}
+}
+@media(max-width:760px) {
+  .gift-heading {order:0;padding:50px 25px 0;background:var(--cream);color:var(--ink);text-align:left;}
+  .gift-heading>.eyebrow {font-size:9px;color:#72572c;margin-bottom:19px;}
+  .gift-heading h2 {font-size:42px;}
+  .gift-heading em {color:#76532c;}
+  .gift-section>.gift-content {padding-top:0;}
+}
+@media(max-width:420px) {
+  .gift-heading h2 {font-size:37px;}
+}
 .gift-content>.eyebrow {
   color:#72572c;
   margin-bottom:24px
